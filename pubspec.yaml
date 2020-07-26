@@ -47,7 +47,6 @@ flutter:
   assets:
   - assets/img/menu.png
   - assets/img/empty.svg
-  - assets/img/32.jpg
   - assets/img/time.png
   - assets/img/location.png
   - assets/img/back.png
@@ -55,7 +54,9 @@ flutter:
   - assets/img/publish.png
   - assets/img/account.png
   - assets/img/cookie.png
-
+  - assets/img/category.png
+  - assets/img/pic.png
+  - assets/img/right.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
