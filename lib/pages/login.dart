@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
-import "package:footprint/widgets/login/login_item.dart";
-import "package:footprint/widgets/login/login_verify_code.dart";
-import "package:footprint/widgets/login/login_button.dart";
+import 'package:flutter/material.dart';
+import 'package:footprint/widgets/login/login_item.dart';
+import 'package:footprint/widgets/login/login_verify_code.dart';
+import 'package:footprint/widgets/login/login_button.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -21,10 +21,10 @@ class _LoginState extends State<Login> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              LoginItem(placeholder: "用户名或手机号"),
-              LoginItem(placeholder: "账号密码"),
-              LoginItem(placeholder: "邀请码"),
-              LoginVerifyCode(placeholder: "验证码"),
+              LoginItem(placeholder: '用户名或手机号'),
+              LoginItem(placeholder: '账号密码'),
+              LoginItem(placeholder: '邀请码'),
+              LoginVerifyCode(placeholder: '验证码'),
               LoginButton(callback: test)
             ],
           ),
@@ -36,5 +36,5 @@ class _LoginState extends State<Login> {
 }
 
 void test() {
-  print("测试");
+  print('测试');
 }

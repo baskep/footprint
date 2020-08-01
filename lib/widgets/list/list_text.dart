@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class ListText extends StatelessWidget {
   const ListText({Key key}) : super(key: key);
@@ -20,7 +20,7 @@ class ListText extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(bottom: 10.0),
-                      child: Text("恋上不一样的春天（荷兰比利时德国游记）", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text('恋上不一样的春天（荷兰比利时德国游记）', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       child: Row(
@@ -35,8 +35,8 @@ class ListText extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("2018.5.2", style: TextStyle(color: Colors.white, fontSize: 14.0)),
-                                Text("比利时,根特", style: TextStyle(color: Colors.white, fontSize: 14.0))
+                                Text('2018.5.2', style: TextStyle(color: Colors.white, fontSize: 14.0)),
+                                Text('比利时,根特', style: TextStyle(color: Colors.white, fontSize: 14.0))
                               ],
                             ),
                           )
@@ -54,12 +54,12 @@ class ListText extends StatelessWidget {
                       height: 30,
                       child: CircleAvatar(
                         radius: 36.0,
-                        backgroundImage: NetworkImage("http://photos.breadtrip.com/avatar_f1_4f_b1e996072051f4ad38781bdb41e82b0faabc728b.jpg-avatar.m"),
+                        backgroundImage: NetworkImage('http://photos.breadtrip.com/avatar_f1_4f_b1e996072051f4ad38781bdb41e82b0faabc728b.jpg-avatar.m'),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: Text("by 比利时,根特", style: TextStyle(color: Colors.white, fontSize: 12.0))
+                      child: Text('by 比利时,根特', style: TextStyle(color: Colors.white, fontSize: 12.0))
                     )
                   ],
                 ),

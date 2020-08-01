@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class ListEmptyImage extends StatelessWidget {
   const ListEmptyImage({Key key}) : super(key: key);

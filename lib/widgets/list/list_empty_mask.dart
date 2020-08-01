@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class ListEmptyMask extends StatelessWidget {
   const ListEmptyMask({Key key}) : super(key: key);

@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
-import "package:footprint/widgets/detail_content/detail_content_image.dart";
-import "package:footprint/widgets/detail_content/detail_content_text.dart";
-import "package:footprint/widgets/detail_content/detail_content_info.dart";
+import 'package:flutter/material.dart';
+import 'package:footprint/widgets/detail_content/detail_content_image.dart';
+import 'package:footprint/widgets/detail_content/detail_content_text.dart';
+import 'package:footprint/widgets/detail_content/detail_content_info.dart';
 
 class Detail extends StatefulWidget {
   Detail({Key key}) : super(key: key);
@@ -16,11 +16,11 @@ class _DetailState extends State<Detail> {
     return Scaffold(
       appBar: PreferredSize(
         child: AppBar(
-          title: Text("详情", style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16)),
+          title: Text('详情', style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16)),
           backgroundColor: Color(0xFF4abdcc),
           elevation: 0.8,
           leading: IconButton(
-            icon: Image.asset("assets/img/back.png", width: 18.0, height: 18.0),
+            icon: Image.asset('assets/img/back.png', width: 18.0, height: 18.0),
             onPressed: () {
               Navigator.pop(context);
             }

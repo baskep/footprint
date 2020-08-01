@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class LoginVerifyCode extends StatelessWidget {
 
@@ -37,7 +37,7 @@ class LoginVerifyCode extends StatelessWidget {
           ),
           Container(
             width: 100,
-            child: Text("我是一个验证码"),
+            child: Text('我是一个验证码'),
           )
         ],
       )

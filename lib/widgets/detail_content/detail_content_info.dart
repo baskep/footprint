@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class DetailContentInfo extends StatelessWidget {
   const DetailContentInfo({Key key}) : super(key: key);
@@ -14,10 +14,10 @@ class DetailContentInfo extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(right: 5.0),
-                child: Image(image: AssetImage("assets/img/time.png"), fit: BoxFit.contain, width: 12.0, height: 12.0),
+                child: Image(image: AssetImage('assets/img/time.png'), fit: BoxFit.contain, width: 12.0, height: 12.0),
               ),
               Container(
-                child: Text("2018.5.2 00:03:00", style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
+                child: Text('2018.5.2 00:03:00', style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
               ),
             ]
           ),
@@ -28,10 +28,10 @@ class DetailContentInfo extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(right: 3.0),
-                    child: Image(image: AssetImage("assets/img/location.png"), width: 12.0, height: 12.0)
+                    child: Image(image: AssetImage('assets/img/location.png'), width: 12.0, height: 12.0)
                   ),
                   Container(
-                    child: Text("美国 旧金山", style: TextStyle(fontSize: 12.0, color: Color(0xFF4abdcc)))
+                    child: Text('美国 旧金山', style: TextStyle(fontSize: 12.0, color: Color(0xFF4abdcc)))
                   )
                 ],
               ),

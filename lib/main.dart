@@ -1,9 +1,13 @@
-import "package:flutter/material.dart";
-import "package:footprint/pages/home.dart";
-import "package:footprint/pages/login.dart";
-import "package:footprint/pages/category.dart";
+import 'package:flutter/material.dart';
+import 'package:footprint/pages/category.dart';
+
+import 'package:footprint/api/http.dart';
+import 'package:footprint/pages/home.dart';
 
 void main() {
+  dio.options.connectTimeout = 12000;
+  dio.options.receiveTimeout = 12000;
+  dio.options.baseUrl = 'http://192.168.0.100:3002/api';
   runApp(MyApp());
 }
 
@@ -17,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white
         ),
-        home: Category(),
+        home: Home(id: '', name: '全部'),
       ),
     );
   }

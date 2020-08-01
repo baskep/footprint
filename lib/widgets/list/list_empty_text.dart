@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class ListEmptyText extends StatelessWidget {
   const ListEmptyText({Key key}) : super(key: key);
@@ -15,7 +15,7 @@ class ListEmptyText extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(bottom: 10.0),
-                child: Text("恋上不一样的春天", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                child: Text('恋上不一样的春天', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
               )
             ],
           )

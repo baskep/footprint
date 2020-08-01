@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
 
@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
         )
       ),
       child: GestureDetector(
-        child: Text("登录", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 17.0)),
+        child: Text('登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 17.0)),
         onTap: () {
           callback();
         },

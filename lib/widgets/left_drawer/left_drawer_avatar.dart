@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class LeftDrawerAvatar extends StatelessWidget {
   const LeftDrawerAvatar({Key key}) : super(key: key);
@@ -22,7 +22,7 @@ class LeftDrawerAvatar extends StatelessWidget {
                   ),
                   child: ClipOval(
                     child: Image.network(
-                      "https://s3.cn-north-1.amazonaws.com.cn/mococn-fxa-prod/8a35b20c4579951a964ff1ab192f71fe",
+                      'https://s3.cn-north-1.amazonaws.com.cn/mococn-fxa-prod/8a35b20c4579951a964ff1ab192f71fe',
                       width: 59,
                       height: 59,
                       fit: BoxFit.cover,
@@ -32,7 +32,7 @@ class LeftDrawerAvatar extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 10.0),
                   width: 80.0,
-                  child: Text("xidxidxidxid", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 15.0, color: Colors.white))
+                  child: Text('xidxidxidxid', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 15.0, color: Colors.white))
                 ),
               ],
             ),

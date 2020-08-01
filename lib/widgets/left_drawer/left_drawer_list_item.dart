@@ -1,12 +1,13 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class LeftDrawerListItem extends StatelessWidget {
 
   final imgUrl;
   final text;
   final link;
+  final callback;
 
-  LeftDrawerListItem({Key key, this.imgUrl, this.text, this.link}) : super(key: key);
+  LeftDrawerListItem({Key key, this.imgUrl, this.text, this.link, this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class LeftDrawerListItem extends StatelessWidget {
                 Container(
                   child: GestureDetector(
                     onTap: () {
-                      print(link);
+                      callback(link);
                     },
                     child: Row(
                       children: <Widget>[

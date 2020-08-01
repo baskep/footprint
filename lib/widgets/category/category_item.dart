@@ -1,7 +1,11 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:footprint/model/category/category.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({Key key}) : super(key: key);
+
+  final CategoryDetail categoryDetail;
+
+  const CategoryItem({Key key, this.categoryDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +28,13 @@ class CategoryItem extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 16.0),
-            child: Image.asset("assets/img/pic.png", width: 24.0, height: 24.0),
+            child: Image.asset(
+              categoryDetail.imageUrl != "" ? categoryDetail.imageUrl : 'assets/img/pic.png', 
+              width: 24.0, 
+              height: 24.0
+            ),
           ),
-          Text("在街头卖一次东西", overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
+          Text(categoryDetail.categoryDetailName, overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
         ],
       ),
     );
