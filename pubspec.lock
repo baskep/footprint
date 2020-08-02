@@ -151,6 +151,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.3"
+  random_string:
+    dependency: "direct main"
+    description:
+      name: random_string
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter

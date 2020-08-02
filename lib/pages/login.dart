@@ -24,7 +24,9 @@ class _LoginState extends State<Login> {
               LoginItem(placeholder: '用户名或手机号'),
               LoginItem(placeholder: '账号密码'),
               LoginItem(placeholder: '邀请码'),
-              LoginVerifyCode(placeholder: '验证码'),
+              LoginVerifyCode(placeholder: '验证码', callback: () {
+                print('te');
+              }),
               LoginButton(callback: test)
             ],
           ),

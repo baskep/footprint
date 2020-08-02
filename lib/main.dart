@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:footprint/pages/category.dart';
 
 import 'package:footprint/api/http.dart';
 import 'package:footprint/pages/home.dart';
+import 'package:footprint/pages/login.dart';
+import 'package:footprint/widgets/verify_code/code_review.dart';
+import 'package:random_string/random_string.dart';
 
 void main() {
   dio.options.connectTimeout = 12000;
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white
         ),
-        home: Home(id: '', name: '全部'),
+        home: Login()
       ),
     );
   }

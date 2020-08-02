@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   flutter_svg: ^0.17.0
   dio: ^3.0.9
+  random_string: ^2.1.0
 
 dev_dependencies:
   flutter_test:

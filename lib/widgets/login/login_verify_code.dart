@@ -1,10 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:footprint/widgets/verify_code/code_review.dart';
+import 'package:footprint/widgets/verify_code/code_print.dart';
+import 'package:random_string/random_string.dart';
+
 
 class LoginVerifyCode extends StatelessWidget {
 
   final placeholder;
 
-  LoginVerifyCode({Key key, this.placeholder}) : super(key: key);
+  final callback;
+
+  LoginVerifyCode({Key key, this.placeholder, this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +44,14 @@ class LoginVerifyCode extends StatelessWidget {
             ),
           ),
           Container(
-            width: 100,
-            child: Text('我是一个验证码'),
+            margin: EdgeInsets.only(top: 20.0),
+            width: 100.0,
+            child: CodeReview(
+              text: 'sdas',
+              callback: () {
+                callback();
+              },
+            ),
           )
         ],
       )

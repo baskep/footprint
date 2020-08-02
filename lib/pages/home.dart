@@ -105,7 +105,7 @@ Widget _leftDrawer(BuildContext context) {
 
 Widget _lists(BuildContext context) {
   return ListView.builder(
-    itemCount: 10,
+    itemCount: 1,
     itemBuilder: (BuildContext context, int index) {
       return InkWell(
         onTap: () {
