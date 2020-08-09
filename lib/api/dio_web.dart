@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:footprint/api/http.dart';
-import 'package:footprint/model/category/category.dart';
+import 'package:footprint/model/category.dart';
+import 'package:footprint/model/login_form_data.dart';
+
+import 'package:footprint/utils/md5.dart';
 
 class DioWeb {
   static Future<List<CategoryModel>> getCategoryData() async {
@@ -28,5 +31,17 @@ class DioWeb {
       }
     }
     return categories;
+  }
+
+  static Future<String> login(LoginFormDataModel loginFormData) async {
+    print('登录');
+    dio.options.headers['authorization'] = MD5.generateMd5(loginFormData.password);
+    var response = await dio.post('/login', data: {
+      'mobile': loginFormData.mobile,
+      'verifyCode': loginFormData.verifyCode,
+      'invitionCode': loginFormData.invitionCode,
+    });
+    var a = 1;
+    return 'true';
   }
 }

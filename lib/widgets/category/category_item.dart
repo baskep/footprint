@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:footprint/model/category/category.dart';
+import 'package:footprint/model/category.dart';
 
 class CategoryItem extends StatelessWidget {
 

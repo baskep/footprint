@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:footprint/model/category/category.dart';
+import 'package:footprint/model/category.dart';
 import 'package:footprint/pages/home.dart';
 import 'package:footprint/widgets/category/category_title.dart';
 import 'package:footprint/widgets/category/category_item.dart';

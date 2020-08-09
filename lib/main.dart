@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:footprint/api/http.dart';
 import 'package:footprint/pages/home.dart';
@@ -9,7 +10,7 @@ import 'package:random_string/random_string.dart';
 void main() {
   dio.options.connectTimeout = 12000;
   dio.options.receiveTimeout = 12000;
-  dio.options.baseUrl = 'http://192.168.0.100:3002/api';
+  dio.options.baseUrl = 'http://192.168.0.105:3002/api';
   runApp(MyApp());
 }
 
@@ -18,13 +19,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: MaterialApp(
+      child:  MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.white
+          primaryColor: Colors.white,
         ),
-        home: Login()
-      ),
+        builder: (BuildContext context, Widget child) {
+        return Material(
+          type: MaterialType.transparency,
+          child: FlutterEasyLoading(
+              child: Login(),
+            ),
+          );
+        }
+      )
     );
   }
 }

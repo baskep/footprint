@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:footprint/model/category/category.dart';
+import 'package:footprint/model/category.dart';
 
 class CategoryTitle extends StatelessWidget {
   final CategoryModel category;
