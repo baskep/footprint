@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:footprint/api/dio_web.dart';
 import 'package:random_string/random_string.dart';
 
@@ -28,13 +27,20 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    refreshVerifyCode();
+    getVerifyCode();
   }
 
-  refreshVerifyCode() {
-    setState(() {
-      _verifyCode = randomAlphaNumeric(4);
-    });
+  // 获取验证码
+  Future getVerifyCode() async {
+    DioWeb.getVerifyCode()
+      .then((data) { 
+          setState(() {
+            var a = 1;
+            _verifyCode = data;
+            var b = _verifyCode;
+            var c = 2;
+          });
+      });
   }
 
   // 登录
@@ -115,16 +121,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
+                  _verifyCode != '' ? 
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
                     width: 100.0,
                     child: CodeReview(
                       text: _verifyCode,
                       callback: () {
-                        refreshVerifyCode();
+                        getVerifyCode();
                       },
                     ),
-                  )
+                  ) : Container()
                 ],
               ),
               // 邀请码
@@ -169,13 +176,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       loginFormData.verifyCode = _verifyCodeController.text;
                       loginFormData.invitionCode = _invitionCodeController.text;
                       // EasyLoading.show(status: 'loading...');
-                      // login(loginFormData);
+                      login(loginFormData);
                     } else {
-                      // Fluttertoast.showToast(
-                      //   msg: '请检查信息是否填写完整',
-                      //   timeInSecForIosWeb: 2,
-                      //   gravity: ToastGravity.CENTER
-                      // );
                     }
                   },
                 ),

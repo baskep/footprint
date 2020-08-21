@@ -33,15 +33,34 @@ class DioWeb {
     return categories;
   }
 
+  static Future<String> getVerifyCode() async {
+    try {
+      var response = await dio.get('/verify-code');
+      if (response.data['status']['code'] == 200 && response.data['data']['code'] != null) {
+        return response.data['data']['code'];
+      } else {
+        print('网络异常');
+        return '';
+      }
+    } catch (e) {
+      print('网络异常');
+      return '';
+    }
+  }
+
   static Future<String> login(LoginFormDataModel loginFormData) async {
-    print('登录');
     dio.options.headers['authorization'] = MD5.generateMd5(loginFormData.password);
-    var response = await dio.post('/login', data: {
-      'mobile': loginFormData.mobile,
-      'verifyCode': loginFormData.verifyCode,
-      'invitionCode': loginFormData.invitionCode,
-    });
-    var a = 1;
-    return 'true';
+    try {
+      var response = await dio.post('/login', data: {
+        'mobile': loginFormData.mobile,
+        'verifyCode': loginFormData.verifyCode,
+        'invitionCode': loginFormData.invitionCode,
+      });
+      var a = 1;
+      return 'true';
+      
+    } catch (e) {
+      print('网络异常');
+    }
   }
 }
