@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:footprint/widgets/verify_code/code_review.dart';
 import 'package:footprint/widgets/verify_code/code_print.dart';
-import 'package:random_string/random_string.dart';
 
 
 class LoginVerifyCode extends StatelessWidget {

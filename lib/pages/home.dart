@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:footprint/pages/category.dart';
 import 'package:footprint/pages/detail.dart';
@@ -36,7 +36,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() { 
     super.initState();
+    test();
   }
+
+  void test() async {
+    var a = await SharedPreferences.getInstance();
+    var b = 2;
+    var c = a.getString('token');
+    print('222');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +90,7 @@ Widget _leftDrawer(BuildContext context) {
                   link: LeftDrawerNav.leftDrawerNavList[2][index],
                   callback: (link) {
                     Navigator.pop(context);
-                    Navigator.of(context).push(new MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) {
                         switch (link) {
                           case 'footprint':
@@ -104,28 +113,31 @@ Widget _leftDrawer(BuildContext context) {
 }
 
 Widget _lists(BuildContext context) {
-  return ListView.builder(
-    itemCount: 1,
-    itemBuilder: (BuildContext context, int index) {
-      return InkWell(
-        onTap: () {
-          Navigator.of(context).push(new MaterialPageRoute(
-            builder: (BuildContext context) {
-              return Detail();
-            }
-          ));
-        },
-        child: Padding(
-          padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-          child: Stack(
-            children: <Widget>[
-              true ? ListImage() : ListEmptyImage(),
-              true ? ListMask() : ListEmptyMask(),
-              true ? ListText() : ListEmptyText()
-            ],
+  return Container(
+    margin: EdgeInsets.only(top: 15.0),
+    child: ListView.builder(
+      itemCount: 1,
+      itemBuilder: (BuildContext context, int index) {
+        return InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) {
+                return Detail();
+              }
+            ));
+          },
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+            child: Stack(
+              children: <Widget>[
+                true ? ListImage() : ListEmptyImage(),
+                true ? ListMask() : ListEmptyMask(),
+                true ? ListText() : ListEmptyText()
+              ],
+            )
           )
-        )
-      );
-    },
-  );
+        );
+      },
+    )
+  ); 
 }

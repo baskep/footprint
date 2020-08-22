@@ -53,7 +53,7 @@ class _CategoryPageState extends State<CategoryPage> {
           child: Column(
             children: <Widget>[
               CategoryTitle(category: categories[index], callback: (id, key) {
-                Navigator.of(context).push(new MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) {
                     return Home(id: id, name: key);
                   }

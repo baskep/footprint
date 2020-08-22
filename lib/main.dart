@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:footprint/api/http.dart';
 import 'package:footprint/pages/home.dart';
 import 'package:footprint/pages/login.dart';
 import 'package:footprint/widgets/verify_code/code_review.dart';
-import 'package:random_string/random_string.dart';
-
 void main() {
   dio.options.connectTimeout = 12000000;
   dio.options.receiveTimeout = 12000000;
@@ -24,14 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
-        builder: (BuildContext context, Widget child) {
-        return Material(
-          type: MaterialType.transparency,
-          child: FlutterEasyLoading(
-              child: Login(),
-            ),
-          );
-        }
+        home: Home(id: '5f22efff606088e6aa66764c', name: '生活')
       )
     );
   }
