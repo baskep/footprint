@@ -64,6 +64,7 @@ flutter:
   - assets/img/category.png
   - assets/img/pic.png
   - assets/img/right.png
+  - assets/img/avatar.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

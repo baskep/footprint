@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:footprint/api/dio_web.dart';
+import 'package:footprint/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:footprint/pages/category.dart';
 import 'package:footprint/pages/detail.dart';
@@ -31,21 +35,49 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  bool _isLoading = false;
+  String token = '';
+  String userName = '';
+  String avatar = '';
 
   @override
   void initState() { 
     super.initState();
-    test();
+    getFootprintUserInfo();
+    getFootprintList();
   }
 
-  void test() async {
-    var a = await SharedPreferences.getInstance();
-    var b = 2;
-    var c = a.getString('token');
-    print('222');
+  void getFootprintUserInfo() async {
+    var sp = await SharedPreferences.getInstance();
+    var tokenData = sp.getString('token');
+    var userNameData = sp.getString('userName');    
+    var avatarData = sp.getString('avatar');
+    setState(() {
+      token = tokenData;
+      userName = userNameData;
+      avatar = avatarData;
+    });
+
+    // setState(() {  
+    //   token = sp.getString('token');
+    //   userName = sp.getString('userName');    
+    //   token = sp.getString('avatar');
+    //   var a = token;
+    //   print(22);
+    // });
   }
 
+  Future getFootprintList() async {
+    DioWeb.getFootprintList(widget.id)
+      .then((data) { 
+        if (mounted) {
+        }
+      });
+  }
+
+  void loginOut() async{
+    await DioWeb.loginOut();
+    getFootprintUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,51 +95,84 @@ class _HomeState extends State<Home> {
           );
         })
       ),
-      drawer: _leftDrawer(context),
+      drawer: _leftDrawer(context, loginOut, token, userName, avatar),
       body: _lists(context),
       backgroundColor: Color(0xFFfbf7ed),
     );
   }
 }
 
-Widget _leftDrawer(BuildContext context) {
+Widget _leftDrawer(BuildContext context, Function loginOut,  String token,  String userName, String avatar) {
   return SmartDrawer(
     widthPercent: 0.5,
-    child: Container(
-      child: Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            LeftDrawerAvatar(),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: LeftDrawerNav.leftDrawerNavList[0].length,
-              itemBuilder: (BuildContext context, int index) {
-                return LeftDrawerListItem(
-                  imgUrl: LeftDrawerNav.leftDrawerNavList[0][index],
-                  text: LeftDrawerNav.leftDrawerNavList[1][index],
-                  link: LeftDrawerNav.leftDrawerNavList[2][index],
-                  callback: (link) {
-                    Navigator.pop(context);
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        switch (link) {
-                          case 'footprint':
-                            return CategoryPage();
-                          default:
-                            break;
+    child: FlutterEasyLoading(
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Column(
+            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  LeftDrawerAvatar(token: token, userName: userName, avatar: avatar),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: LeftDrawerNav.leftDrawerNavList[0].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return LeftDrawerListItem(
+                        imgUrl: LeftDrawerNav.leftDrawerNavList[0][index],
+                        text: LeftDrawerNav.leftDrawerNavList[1][index],
+                        link: LeftDrawerNav.leftDrawerNavList[2][index],
+                        callback: (link) {
+                          Navigator.pop(context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              switch (link) {
+                                case 'footprint':
+                                  return CategoryPage();
+                                default:
+                                  break;
+                              }
+                            }
+                          ));
                         }
-                      }
-                    ));
-                  }
-                );
-              }
-            )
-          ],
+                      );
+                    }
+                  )
+                ],
+              ),
+              token != '' && token != null ? Container(
+                margin: EdgeInsets.only(bottom: 44.0),
+                child: InkWell(
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 60.0),
+                    width: 164.0,
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF4abdcc),
+                      border: Border.all(
+                        color: Colors.white,
+                      )
+                    ),
+                    child: Text('注销登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.0)),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Fluttertoast.showToast(
+                      msg: '注销登录中',
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1
+                    );
+                    loginOut();
+                  },
+                )
+              ) : Container()
+            ],
+          )  
         ),
-      ),
-      color: Color(0xFF4abdcc),
+        color: Color(0xFF4abdcc),
+      )
     ) 
   );
 }

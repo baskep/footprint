@@ -11,9 +11,9 @@ import 'package:footprint/utils/md5.dart';
 
 
 class DioWeb {
-  static void formatError(msg) {
+  static void formatMsg(msg) {
     Fluttertoast.showToast(
-      msg: 'msg',
+      msg: msg,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1
     );
@@ -52,11 +52,11 @@ class DioWeb {
       if (response.data['status']['code'] == 200 && response.data['data']['code'] != null) {
         return response.data['data']['code'];
       } else {
-        formatError('网络错误');
+        formatMsg('网络错误');
         return '';
       }
     } catch (e) {
-      formatError('网络错误');
+      formatMsg('网络错误');
       return '';
     }
   }
@@ -87,19 +87,53 @@ class DioWeb {
 
         // 本地化存储
         var prefs = await SharedPreferences.getInstance();
+        prefs.setString('_id', response.data['data']['_id']);
         prefs.setString('token', response.data['data']['token']);
         prefs.setString('userName', response.data['data']['userName']);
         prefs.setString('mobile', response.data['data']['mobile']);
         prefs.setString('avatar', response.data['data']['avatar']);
-  
         return true;
       } else {
-        formatError(response.data['status']['message']);
+        formatMsg(response.data['status']['message']);
         return false;
       }
     } catch (e) {
-      formatError('网络错误');
+      formatMsg('网络错误');
       return false;
+    }
+  }
+
+  static Future loginOut() async {
+    try {
+      var prefs = await SharedPreferences.getInstance();
+      var mobile = prefs.getString('mobile');
+      var response = await dio.post('/login-out', data: {
+        'mobile': mobile,
+      });
+      if (response.data['status']['code'] == 200) {
+        // 清空本地化存储
+        prefs.remove('_id');
+        prefs.remove('token');
+        prefs.remove('userName');
+        prefs.remove('mobile');
+        prefs.remove('avatar');
+        formatMsg('注销成功');
+      } else {
+        formatMsg(response.data['status']['message']);
+      }
+    } catch (e) {
+      formatMsg('网络错误');
+    }
+  }
+
+  static Future<List<CategoryDetail>> getFootprintList(String categoryId) async {
+    try {
+      var prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var userId = prefs.getString('_id');
+      var a = 2;
+    } catch (e) {
+      formatMsg('网络错误');
     }
   }
 }

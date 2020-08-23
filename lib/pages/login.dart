@@ -218,6 +218,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           } else {
                             getVerifyCode();
                           }
+                          setState(() {
+                            _isLogin = false;
+                          });
                         }
                       } else {
                         Fluttertoast.showToast(
