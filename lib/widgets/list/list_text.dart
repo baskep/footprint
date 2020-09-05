@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:footprint/model/category.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ListText extends StatelessWidget {
-  const ListText({Key key}) : super(key: key);
+
+  final CategoryDetail categoryDetail;
+
+  const ListText({Key key, this.categoryDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +25,33 @@ class ListText extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(bottom: 10.0),
-                      child: Text('恋上不一样的春天（荷兰比利时德国游记）', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text(categoryDetail.categoryDetailName, style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       child: Row(
                         children: <Widget>[
-                          Container(
-                            width: 4,
-                            height: 28,
-                            color: Color(0xFF4abdcc),
-                          ),
+                          categoryDetail.dateTime != '' || categoryDetail.localtion != '' ? 
+                            Container(
+                              width: 4,
+                              height: 28,
+                              color: Color(0xFF4abdcc),
+                            ) : Container(),
                           Container(
                             margin: EdgeInsets.only(left: 5.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('2018.5.2', style: TextStyle(color: Colors.white, fontSize: 14.0)),
-                                Text('比利时,根特', style: TextStyle(color: Colors.white, fontSize: 14.0))
+                                Text(
+                                  categoryDetail.dateTime != '' ? categoryDetail.dateTime : '', 
+                                  style: TextStyle(color: Colors.white, fontSize: 14.0),
+                                ),
+                                Text(
+                                  categoryDetail.localtion != '' ? categoryDetail.localtion : '', 
+                                  style: TextStyle(color: Colors.white, fontSize: 14.0),
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       )
                     )
@@ -52,14 +64,26 @@ class ListText extends StatelessWidget {
                     Container(
                       width: 30,
                       height: 30,
-                      child: CircleAvatar(
-                        radius: 36.0,
-                        backgroundImage: NetworkImage('http://photos.breadtrip.com/avatar_f1_4f_b1e996072051f4ad38781bdb41e82b0faabc728b.jpg-avatar.m'),
-                      ),
+                      child: categoryDetail.avatar != null && categoryDetail.avatar != '' ?
+                        CachedNetworkImage(
+                          imageUrl: categoryDetail.avatar,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              )
+                            )
+                          )
+                        ) : Container()
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: Text('by 比利时,根特', style: TextStyle(color: Colors.white, fontSize: 12.0))
+                      child: Text(
+                        categoryDetail.imageUrl != '' ? 'by ' + categoryDetail.user : '', 
+                        style: TextStyle(color: Colors.white, fontSize: 12.0),
+                      ),
                     )
                   ],
                 ),

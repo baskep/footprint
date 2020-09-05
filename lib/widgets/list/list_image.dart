@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ListImage extends StatelessWidget {
-  const ListImage({Key key}) : super(key: key);
+
+  final String imageUrl;
+
+  const ListImage({Key key, this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,14 +13,20 @@ class ListImage extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          image: DecorationImage(
-            image: NetworkImage(
-              'http://photos.breadtrip.com/photo_2018_06_10_8df1224b51aa2e69bf63f930692a8647.jpg?imageView/1/w/640/h/480/q/85',
-            ),
-            fit: BoxFit.cover 
+        ),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              )
+            )
           )
         ),
-        height: 200,
+        height: 200.0,
       ),
       alignment: Alignment.topCenter,
     );

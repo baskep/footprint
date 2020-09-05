@@ -36,6 +36,7 @@ dependencies:
   dio_cookie_manager: ^1.0.0
   path_provider: ^1.6.14
   shared_preferences: ^0.5.10
+  cached_network_image: ^2.2.0
 
 dev_dependencies:
   flutter_test:

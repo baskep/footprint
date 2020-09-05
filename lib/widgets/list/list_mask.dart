@@ -9,7 +9,7 @@ class ListMask extends StatelessWidget {
       child: Opacity(
         opacity: .6,
         child: Container(
-        decoration: BoxDecoration(
+          decoration: BoxDecoration(
             gradient: const LinearGradient(
             colors: [ Color(0xFF000000), Colors.transparent ]),
             borderRadius: BorderRadius.all(Radius.circular(4)),

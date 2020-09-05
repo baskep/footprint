@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:footprint/api/dio_web.dart';
-import 'package:footprint/pages/login.dart';
+import 'package:footprint/model/category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -35,6 +35,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  BuildContext test;
+
+  List<CategoryDetail> footprintList = new List<CategoryDetail>();
+
   String token = '';
   String userName = '';
   String avatar = '';
@@ -42,8 +46,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() { 
     super.initState();
-    getFootprintUserInfo();
     getFootprintList();
+    getFootprintUserInfo();
   }
 
   void getFootprintUserInfo() async {
@@ -56,21 +60,14 @@ class _HomeState extends State<Home> {
       userName = userNameData;
       avatar = avatarData;
     });
-
-    // setState(() {  
-    //   token = sp.getString('token');
-    //   userName = sp.getString('userName');    
-    //   token = sp.getString('avatar');
-    //   var a = token;
-    //   print(22);
-    // });
   }
 
   Future getFootprintList() async {
-    DioWeb.getFootprintList(widget.id)
+    DioWeb.getFootprintList(widget.id, true)
       .then((data) { 
-        if (mounted) {
-        }
+        setState(() {
+          footprintList = data;
+        });
       });
   }
 
@@ -95,14 +92,26 @@ class _HomeState extends State<Home> {
           );
         })
       ),
-      drawer: _leftDrawer(context, loginOut, token, userName, avatar),
-      body: _lists(context),
+      drawer: _leftDrawer(context, widget.id, loginOut, token, userName, avatar, (result) {
+        setState(() {
+          footprintList = result;
+        });
+      }),
+      body: _lists(footprintList, context),
       backgroundColor: Color(0xFFfbf7ed),
     );
   }
 }
 
-Widget _leftDrawer(BuildContext context, Function loginOut,  String token,  String userName, String avatar) {
+Widget _leftDrawer(
+  BuildContext context, 
+  String id, 
+  Function loginOut, 
+  String token, 
+  String userName, 
+  String avatar,
+  Function callback
+) {
   return SmartDrawer(
     widthPercent: 0.5,
     child: FlutterEasyLoading(
@@ -157,7 +166,7 @@ Widget _leftDrawer(BuildContext context, Function loginOut,  String token,  Stri
                     ),
                     child: Text('注销登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.0)),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
                     Fluttertoast.showToast(
                       msg: '注销登录中',
@@ -165,6 +174,8 @@ Widget _leftDrawer(BuildContext context, Function loginOut,  String token,  Stri
                       timeInSecForIosWeb: 1
                     );
                     loginOut();
+                    List<CategoryDetail> result = await DioWeb.getFootprintList(id, false);
+                    callback(result);
                   },
                 )
               ) : Container()
@@ -177,11 +188,11 @@ Widget _leftDrawer(BuildContext context, Function loginOut,  String token,  Stri
   );
 }
 
-Widget _lists(BuildContext context) {
+Widget _lists(List<CategoryDetail> footprintList, BuildContext context) {
   return Container(
     margin: EdgeInsets.only(top: 15.0),
     child: ListView.builder(
-      itemCount: 1,
+      itemCount: footprintList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
@@ -195,9 +206,15 @@ Widget _lists(BuildContext context) {
             padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
             child: Stack(
               children: <Widget>[
-                true ? ListImage() : ListEmptyImage(),
-                true ? ListMask() : ListEmptyMask(),
-                true ? ListText() : ListEmptyText()
+                footprintList.length != 0 && footprintList[index].imageUrl != '' ? 
+                ListImage(imageUrl: footprintList[index].imageUrl) : 
+                ListEmptyImage(),
+                footprintList.length != 0 && footprintList[index].imageUrl != '' ? 
+                ListMask() : 
+                ListEmptyMask(),
+                footprintList.length != 0 ? 
+                ListText(categoryDetail: footprintList[index]) : 
+                ListEmptyText()
               ],
             )
           )

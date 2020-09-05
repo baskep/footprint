@@ -40,6 +40,7 @@ class CategoryDetail {
   String localtion;
   String modified;
   String user;
+  String avatar;
 
   CategoryDetail(
     this.categoryDetailName,
@@ -49,7 +50,8 @@ class CategoryDetail {
     this.imageUrl,
     this.localtion,
     this.modified,
-    this.user);
+    this.user,
+    this.avatar);
 
   CategoryDetail.fromJson(Map<String, dynamic> json) {
     categoryDetailName = json['categoryDetailName'];
@@ -60,6 +62,7 @@ class CategoryDetail {
     localtion = json['localtion'];
     modified = json['modified'];
     user = json['user'];
+    avatar = json['avatar'];
   }
 
   Map<String, dynamic> toJson() {
@@ -72,6 +75,7 @@ class CategoryDetail {
     data['localtion'] = this.localtion;
     data['modified'] = this.modified;
     data['user'] = this.user;
+    data['avatar'] = this.avatar;
     return data;
   }
 }
