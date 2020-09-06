@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:footprint/pages/category.dart';
 import 'package:footprint/pages/detail.dart';
+import 'package:footprint/pages/edit_page.dart';
 import 'package:footprint/widgets/left_drawer/left_drawer_avatar.dart';
 import 'package:footprint/widgets/left_drawer/left_drawer_list_item.dart';
 import 'package:footprint/widgets/list/list_image.dart';
@@ -17,6 +18,7 @@ import 'package:footprint/widgets/list/list_empty_image.dart';
 import 'package:footprint/widgets/list/list_empty_mask.dart';
 import 'package:footprint/widgets/list/list_empty_text.dart';
 import 'package:footprint/widgets/common/smart_drawer.dart';
+import 'package:footprint/widgets/common/bottom_sheet.dart';
 
 import 'package:footprint/enum/left_drawer_nav.dart';
 
@@ -24,7 +26,6 @@ import 'package:footprint/enum/left_drawer_nav.dart';
 class Home extends StatefulWidget {
 
   final String id;
-
   final String name;
 
   Home({this.id, this.name});
@@ -97,7 +98,7 @@ class _HomeState extends State<Home> {
           footprintList = result;
         });
       }),
-      body: _lists(footprintList, context),
+      body: _lists(footprintList, token, userName, context),
       backgroundColor: Color(0xFFfbf7ed),
     );
   }
@@ -188,7 +189,7 @@ Widget _leftDrawer(
   );
 }
 
-Widget _lists(List<CategoryDetail> footprintList, BuildContext context) {
+Widget _lists(List<CategoryDetail> footprintList, String token, String userName, BuildContext context) {
   return Container(
     margin: EdgeInsets.only(top: 15.0),
     child: ListView.builder(
@@ -196,11 +197,49 @@ Widget _lists(List<CategoryDetail> footprintList, BuildContext context) {
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) {
-                return Detail();
-              }
-            ));
+            if (
+              token != '' && 
+              token != null && 
+              userName != '' && 
+              userName != null 
+            ) {
+              var labelList = ['编辑', '查看详情'];
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return CommonBottomSheet(
+                    list: labelList,
+                    onItemClickListener: (index) async {
+                      Navigator.pop(context);
+                      if (index == 1) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return Detail();
+                          }
+                        ));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return EditPage(
+                              id: footprintList[index].id, 
+                              categoryId: footprintList[index].categoryId,
+                              userId: footprintList[index].userId
+                            );
+                          }
+                        ));
+                      }
+                    },
+                  );
+                }
+              );
+            } else {
+              Fluttertoast.showToast(
+                msg: '请先登录后再操作',
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1
+              );
+            }
           },
           child: Padding(
             padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),

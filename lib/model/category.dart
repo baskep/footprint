@@ -32,6 +32,9 @@ class CategoryModel {
 }
 
 class CategoryDetail {
+  String id;
+  String categoryId;
+  String userId;
   String categoryDetailName;
   String content;
   String created;
@@ -43,6 +46,9 @@ class CategoryDetail {
   String avatar;
 
   CategoryDetail(
+    this.id,
+    this.categoryId,
+    this.userId,
     this.categoryDetailName,
     this.content,
     this.created,
@@ -54,6 +60,9 @@ class CategoryDetail {
     this.avatar);
 
   CategoryDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    categoryId = json['categoryId'];
+    userId = json['userId'];
     categoryDetailName = json['categoryDetailName'];
     content = json['content'];
     created = json['created'];
@@ -67,6 +76,9 @@ class CategoryDetail {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['categoryId'] = this.categoryId;
+    data['userId'] = this.userId;
     data['categoryDetailName'] = this.categoryDetailName;
     data['content'] = this.content;
     data['created'] = this.created;

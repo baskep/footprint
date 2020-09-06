@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:footprint/api/http.dart';
+import 'package:footprint/pages/edit_page.dart';
 import 'package:footprint/pages/home.dart';
 import 'package:footprint/pages/login.dart';
 import 'package:footprint/widgets/verify_code/code_review.dart';
@@ -21,7 +22,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
-        home: Home(id: '5f22efff606088e6aa66764c', name: '生活')
+        home: EditPage(
+          id: 'footprintList[index].id', 
+          categoryId: 'footprintList[index].categoryId',
+          userId: 'footprintList[index].userId'
+        )
       )
     );
   }

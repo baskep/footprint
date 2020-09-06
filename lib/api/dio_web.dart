@@ -36,6 +36,9 @@ class DioWeb {
     List<CategoryDetail> footprintList = new List<CategoryDetail> ();
     for (var detail in categoryDetailData) {
       CategoryDetail categoryDetailItem = new CategoryDetail(
+        detail['_id'],
+        detail['category'],
+        detail['user']['_id'],
         detail['categoryDetailName'],
         detail['content'],
         detail['created'],
@@ -62,6 +65,9 @@ class DioWeb {
         List<CategoryDetail> categoryDetail = new List<CategoryDetail> ();
         for (var detail in item['categoryDetail']) {
           CategoryDetail categoryDetailItem = new CategoryDetail(
+            detail['_id'],
+            detail['category'],
+            detail['user']['_id'],
             detail['categoryDetailName'],
             detail['content'],
             detail['created'],
