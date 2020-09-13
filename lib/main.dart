@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:footprint/api/http.dart';
 import 'package:footprint/pages/edit_page.dart';
@@ -8,7 +10,7 @@ import 'package:footprint/widgets/verify_code/code_review.dart';
 void main() {
   dio.options.connectTimeout = 12000000;
   dio.options.receiveTimeout = 12000000;
-  dio.options.baseUrl = 'http://192.168.0.100:3002/api';
+  dio.options.baseUrl = 'http://192.168.0.103:3002/api';
   runApp(MyApp());
 }
 
@@ -22,11 +24,15 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
-        home: EditPage(
-          id: 'footprintList[index].id', 
-          categoryId: 'footprintList[index].categoryId',
-          userId: 'footprintList[index].userId'
-        )
+        home: Home(id: '5f22efff606088e6aa66764c', name: '生活'),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('zh', ''),
+        ],
       )
     );
   }

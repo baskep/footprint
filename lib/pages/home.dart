@@ -17,8 +17,7 @@ import 'package:footprint/widgets/list/list_text.dart';
 import 'package:footprint/widgets/list/list_empty_image.dart';
 import 'package:footprint/widgets/list/list_empty_mask.dart';
 import 'package:footprint/widgets/list/list_empty_text.dart';
-import 'package:footprint/widgets/common/smart_drawer.dart';
-import 'package:footprint/widgets/common/bottom_sheet.dart';
+import 'package:footprint/widgets/common/smart_drawer.dart'; 
 
 import 'package:footprint/enum/left_drawer_nav.dart';
 
@@ -69,6 +68,7 @@ class _HomeState extends State<Home> {
         setState(() {
           footprintList = data;
         });
+        getFootprintUserInfo();
       });
   }
 
@@ -203,33 +203,36 @@ Widget _lists(List<CategoryDetail> footprintList, String token, String userName,
               userName != '' && 
               userName != null 
             ) {
-              var labelList = ['编辑', '查看详情'];
-              showDialog(
-                barrierDismissible: true,
+              showCupertinoModalPopup (
                 context: context,
                 builder: (BuildContext context) {
-                  return CommonBottomSheet(
-                    list: labelList,
-                    onItemClickListener: (index) async {
-                      Navigator.pop(context);
-                      if (index == 1) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return Detail();
-                          }
-                        ));
-                      } else {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return EditPage(
-                              id: footprintList[index].id, 
-                              categoryId: footprintList[index].categoryId,
-                              userId: footprintList[index].userId
-                            );
-                          }
-                        ));
-                      }
-                    },
+                  return CupertinoActionSheet(
+                    actions: <Widget>[
+                      CupertinoActionSheetAction(
+                        child: Text('编辑'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              var footprintListItem = footprintList[index];
+                              return EditPage(id: footprintListItem.id, categoryId: footprintListItem.categoryId, userId: footprintListItem.userId);
+                            }
+                          ));
+                        },
+                        isDefaultAction: true,
+                      ),
+                      CupertinoActionSheetAction(
+                        child: Text('查看详情'),
+                        onPressed: () {},
+                        isDestructiveAction: true,
+                      ),
+                    ],
+                    cancelButton: CupertinoActionSheetAction(
+                      child: Text('取消'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   );
                 }
               );

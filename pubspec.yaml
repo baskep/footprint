@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,6 +39,7 @@ dependencies:
   path_provider: ^1.6.14
   shared_preferences: ^0.5.10
   cached_network_image: ^2.2.0
+  image_picker: ^0.6.7+7
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +73,7 @@ flutter:
   - assets/img/edit-localtion.png
   - assets/img/edit-time.png
   - assets/img/edit-publish.png
+  - assets/img/clear-icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:footprint/api/http.dart';
@@ -8,7 +12,7 @@ import 'package:footprint/model/category.dart';
 import 'package:footprint/model/login_form_data.dart';
 
 import 'package:footprint/utils/md5.dart';
-
+import 'package:footprint/utils/oss_util.dart';
 
 class DioWeb {
 
@@ -212,6 +216,29 @@ class DioWeb {
     } catch (e) {
       formatMsg('网络错误');
       return footprintList;
+    }
+  }
+
+
+  static Future<String> upload(PickedFile image) async {
+    var baseUrl = 'http://footprintpic.oss-cn-hangzhou.aliyuncs.com/';
+    var fileName = OssUtil.instance.getImageName(image.path);
+    dio.options.responseType = ResponseType.plain;
+    FormData formdata = FormData.fromMap({
+      'Filename': fileName,
+      'key': 'images/' + fileName,
+      'policy': OssUtil.policy,
+      'OSSAccessKeyId': 'LTAI4GJ8WyjtCFmw17wYdkvS',
+      'success_action_status': '200',
+      'signature': OssUtil.instance.getSignature('ik8JLWP7jqpV6yGQ3ZOgt1JLyfwxCm'),
+      'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
+      });
+    var response = await dio.post(baseUrl, data: formdata);
+    if (response.statusCode == 200) {
+      return baseUrl + 'images/' + fileName;
+    } else {
+      formatMsg('上传图片失败，请稍候再试');
+      return '';
     }
   }
 }
