@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:footprint/model/category.dart';
 
 class DetailContentInfo extends StatelessWidget {
-  const DetailContentInfo({Key key}) : super(key: key);
+  final CategoryDetail listItem;
+
+  const DetailContentInfo({Key key, this.listItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,18 +13,18 @@ class DetailContentInfo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
+          listItem.dateTime != null && listItem.dateTime != '' ? Row(
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(right: 5.0),
                 child: Image(image: AssetImage('assets/img/time.png'), fit: BoxFit.contain, width: 12.0, height: 12.0),
               ),
               Container(
-                child: Text('2018.5.2 00:03:00', style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
+                child: Text(listItem.dateTime, style: TextStyle(fontSize: 12.0, color: Color(0xFF999999)))
               ),
             ]
-          ),
-          Container(
+          ) : Row(),
+          listItem.localtion != null && listItem.localtion != '' ? Container(
             child: Padding(
               padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 2.0, bottom: 3.0),
               child: Row(
@@ -31,7 +34,7 @@ class DetailContentInfo extends StatelessWidget {
                     child: Image(image: AssetImage('assets/img/location.png'), width: 12.0, height: 12.0)
                   ),
                   Container(
-                    child: Text('美国 旧金山', style: TextStyle(fontSize: 12.0, color: Color(0xFF4abdcc)))
+                    child: Text(listItem.localtion, style: TextStyle(fontSize: 12.0, color: Color(0xFF4abdcc)))
                   )
                 ],
               ),
@@ -40,7 +43,7 @@ class DetailContentInfo extends StatelessWidget {
               color: Color(0xFFf2f2f2),
               borderRadius: BorderRadius.circular(20)
             )
-          )
+          ) : Container()
         ],
       )
     );

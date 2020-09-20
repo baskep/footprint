@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:footprint/api/http.dart';
 import 'package:footprint/pages/edit_page.dart';
@@ -10,7 +11,7 @@ import 'package:footprint/widgets/verify_code/code_review.dart';
 void main() {
   dio.options.connectTimeout = 12000000;
   dio.options.receiveTimeout = 12000000;
-  dio.options.baseUrl = 'http://192.168.0.103:3002/api';
+  dio.options.baseUrl = 'http://192.168.0.100:3002/api';
   runApp(MyApp());
 }
 
@@ -19,12 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:  MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
-        home: Home(id: '5f22efff606088e6aa66764c', name: '生活'),
+        home: Home(id: '', name: '生活'),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

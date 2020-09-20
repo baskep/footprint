@@ -41,7 +41,7 @@ class LeftDrawerAvatar extends StatelessWidget {
                     GestureDetector(
                       child: ClipOval(
                         child: Image.asset(
-                          'assets/img/avatar.png',
+                          'assets/img/default-avatar.png',
                           width: 59,
                           height: 59,
                         ),

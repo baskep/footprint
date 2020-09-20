@@ -1,21 +1,30 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class DetailContentImage extends StatelessWidget {
-  const DetailContentImage({Key key}) : super(key: key);
+  final String imageUrl;
+
+  const DetailContentImage({Key key, this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(4)),
-        image: DecorationImage(
-          image: NetworkImage(
-            'http://photos.breadtrip.com/photo_2018_06_10_8df1224b51aa2e69bf63f930692a8647.jpg?imageView/1/w/640/h/480/q/85',
-          ),
-          fit: BoxFit.cover 
+      ),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            )
+          )
         )
       ),
-      height: 200,
+      height: imageUrl != null && imageUrl != '' ? 200.0 : 0,
     );
   }
 }

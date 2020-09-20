@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:footprint/model/list_form_data.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -62,33 +63,50 @@ class DioWeb {
   // todo 优化逻辑，前后台
   static Future<List<CategoryModel>> getCategoryData() async {
     List<CategoryModel> categories = new List<CategoryModel> ();
-    var res = await dio.get('/category');
-    if (res.statusCode == 200 && res.data['status'] == 200) {
-      var categoryData = res.data['data'];
-      for (var item in categoryData) {
-        List<CategoryDetail> categoryDetail = new List<CategoryDetail> ();
-        for (var detail in item['categoryDetail']) {
-          CategoryDetail categoryDetailItem = new CategoryDetail(
-            detail['_id'],
-            detail['category'],
-            detail['user']['_id'],
-            detail['categoryDetailName'],
-            detail['content'],
-            detail['created'],
-            detail['dateTime'],
-            detail['imageUrl'],
-            detail['localtion'],
-            detail['modified'],
-            detail['user']['userName'],
-            detail['user']['avatar']
-          );
-          categoryDetail.add(categoryDetailItem);
-        }
-        CategoryModel category = new CategoryModel(item['id'], item['name'], item['key'], categoryDetail);
-        categories.add(category);
+    try {
+      var prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var userId = prefs.getString('_id');
+      dio.options.headers['authorization'] = token;
+      var res;
+      if (userId != null && userId != '') {
+        res = await dio.get('/category', queryParameters: {
+          'userId': userId
+        });
+      } else {
+        res = await dio.get('/empty-category');
       }
+      var code = res.data['status']['code'];
+      if (code == 200) {
+        var categoryData = res.data['data']['data'];
+        for (var item in categoryData) {
+          List<CategoryDetail> categoryDetail = new List<CategoryDetail> ();
+          for (var detail in item['categoryDetail']) {
+            CategoryDetail categoryDetailItem = new CategoryDetail(
+              detail['_id'],
+              detail['category']['_id'],
+              detail['user']['_id'],
+              detail['categoryDetailName'],
+              detail['content'],
+              detail['created'],
+              detail['dateTime'],
+              detail['imageUrl'],
+              detail['localtion'],
+              detail['modified'],
+              detail['user']['userName'],
+              detail['user']['avatar']
+            );
+            categoryDetail.add(categoryDetailItem);
+          }
+          CategoryModel category = new CategoryModel(item['id'], item['name'], item['key'], categoryDetail);
+          categories.add(category);
+        }
+      } 
+      return categories;
+    } catch (e) {
+      formatMsg('网络错误');
+      return categories;
     }
-    return categories;
   }
 
   // 获取验证码
@@ -138,11 +156,9 @@ class DioWeb {
         prefs.setString('userName', res.data['data']['userName']);
         prefs.setString('mobile', res.data['data']['mobile']);
         prefs.setString('avatar', res.data['data']['avatar']);
-        EasyLoading.dismiss();
         return true;
       } else {
         formatMsg(res.data['status']['message']);
-        EasyLoading.dismiss();
         return false;
       }
     } catch (e) {
@@ -152,7 +168,7 @@ class DioWeb {
   }
 
   // 注销登录
-  static Future loginOut() async {
+  static Future<bool> loginOut() async {
     try {
       var prefs = await SharedPreferences.getInstance();
       var mobile = prefs.getString('mobile');
@@ -162,12 +178,14 @@ class DioWeb {
       if (res.data['status']['code'] == 200) {
         // 清空本地化存储
         await clearUserInfo();
-        formatMsg('注销成功');
+        return true;
       } else {
         formatMsg(res.data['status']['message']);
+        return false;
       }
     } catch (e) {
       formatMsg('网络错误');
+      return false;
     }
   }
 
@@ -183,8 +201,6 @@ class DioWeb {
       if (
         userId != null &&
         userId != '' &&
-        categoryId != null &&
-        categoryId != '' &&
         isUserLogin
       ) {
         res = await dio.get('/footprint', queryParameters: {
@@ -219,7 +235,7 @@ class DioWeb {
     }
   }
 
-
+  // 上传图片至阿里云
   static Future<String> upload(PickedFile image) async {
     var baseUrl = 'http://footprintpic.oss-cn-hangzhou.aliyuncs.com/';
     var fileName = OssUtil.instance.getImageName(image.path);
@@ -241,4 +257,29 @@ class DioWeb {
       return '';
     }
   }
+
+  // 编辑具体分类选项
+  static Future<bool> editeCategoryDetail(ListFormData listFormData, CategoryDetail listItem) async {
+    try {
+      var res = await dio.post('/edit-list', data: {
+        '_id': listItem.id,
+        'id': listItem.userId,
+        'categoryId': listItem.categoryId,
+        'content': listFormData.content,
+        'dateTimeStr': listFormData.dateTimeStr,
+        'imageUrl': listFormData.imageUrl,
+        'locationStr': listFormData.locationStr
+      });
+      if (res.statusCode == 200 || res.data['status']['code'] == 200) {
+        return true;
+      } else {
+        formatMsg(res.data['status']['message']);
+        return false;
+      }
+    } catch (e) {
+      formatMsg('网络错误');
+      return false;
+    }
+  }
+
 }

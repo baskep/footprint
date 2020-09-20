@@ -76,6 +76,20 @@ class ListText extends StatelessWidget {
                               )
                             )
                           )
+                        ) : categoryDetail.imageUrl != null && categoryDetail.imageUrl != '' ?
+                        Container(
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/img/default-avatar.png',
+                              width: 59,
+                              height: 59,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0)
+                          ),
                         ) : Container()
                     ),
                     Container(

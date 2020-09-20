@@ -12,8 +12,8 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
 
-  List<Widget> _categoryItem(List<CategoryDetail> categoryDetail) => List.generate(categoryDetail.length, (index) {
-    return CategoryItem(categoryDetail: categoryDetail[index]);
+  List<Widget> _categoryItem(categoryDetail, homeId, homeName) => List.generate(categoryDetail.length, (index) {
+    return CategoryItem(categoryDetail: categoryDetail[index], homeId: homeId, homeName: homeName);
   });
   
   
@@ -61,7 +61,7 @@ class _CategoryPageState extends State<CategoryPage> {
               }),
               Wrap(
                 spacing: MediaQuery.of(context).size.width / 16,
-                children: _categoryItem(categories[index].categoryDetail)
+                children: _categoryItem(categories[index].categoryDetail, categories[index].id, categories[index].key)
               )
             ],
           ),

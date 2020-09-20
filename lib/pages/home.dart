@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:footprint/api/dio_web.dart';
 import 'package:footprint/model/category.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cool_ui/cool_ui.dart';
 
 import 'package:footprint/pages/category.dart';
 import 'package:footprint/pages/detail.dart';
 import 'package:footprint/pages/edit_page.dart';
+
 import 'package:footprint/widgets/left_drawer/left_drawer_avatar.dart';
 import 'package:footprint/widgets/left_drawer/left_drawer_list_item.dart';
 import 'package:footprint/widgets/list/list_image.dart';
@@ -34,8 +35,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  BuildContext test;
 
   List<CategoryDetail> footprintList = new List<CategoryDetail>();
 
@@ -72,11 +71,6 @@ class _HomeState extends State<Home> {
       });
   }
 
-  void loginOut() async{
-    await DioWeb.loginOut();
-    getFootprintUserInfo();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,103 +87,97 @@ class _HomeState extends State<Home> {
           );
         })
       ),
-      drawer: _leftDrawer(context, widget.id, loginOut, token, userName, avatar, (result) {
+      drawer: _leftDrawer(context, widget.id, token, userName, avatar, getFootprintUserInfo, (result) {
         setState(() {
           footprintList = result;
         });
       }),
-      body: _lists(footprintList, token, userName, context),
+      body: _lists(context, footprintList, token, userName, widget.id, widget.name),
       backgroundColor: Color(0xFFfbf7ed),
     );
   }
 }
 
-Widget _leftDrawer(
-  BuildContext context, 
-  String id, 
-  Function loginOut, 
-  String token, 
-  String userName, 
-  String avatar,
-  Function callback
-) {
+Widget _leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, callback) {
   return SmartDrawer(
     widthPercent: 0.5,
-    child: FlutterEasyLoading(
-      child: Container(
-        child: Padding(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Column(
-            mainAxisAlignment:MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  LeftDrawerAvatar(token: token, userName: userName, avatar: avatar),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: LeftDrawerNav.leftDrawerNavList[0].length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return LeftDrawerListItem(
-                        imgUrl: LeftDrawerNav.leftDrawerNavList[0][index],
-                        text: LeftDrawerNav.leftDrawerNavList[1][index],
-                        link: LeftDrawerNav.leftDrawerNavList[2][index],
-                        callback: (link) {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              switch (link) {
-                                case 'footprint':
-                                  return CategoryPage();
-                                default:
-                                  break;
-                              }
+    child: Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                LeftDrawerAvatar(token: token, userName: userName, avatar: avatar),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: LeftDrawerNav.leftDrawerNavList[0].length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return LeftDrawerListItem(
+                      imgUrl: LeftDrawerNav.leftDrawerNavList[0][index],
+                      text: LeftDrawerNav.leftDrawerNavList[1][index],
+                      link: LeftDrawerNav.leftDrawerNavList[2][index],
+                      callback: (link) {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            switch (link) {
+                              case 'footprint':
+                                return CategoryPage();
+                              case 'link':
+                                return CategoryPage();
+                              default:
+                                return CategoryPage();
+                                break;
                             }
-                          ));
-                        }
-                      );
-                    }
-                  )
-                ],
-              ),
-              token != '' && token != null ? Container(
-                margin: EdgeInsets.only(bottom: 44.0),
-                child: InkWell(
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 60.0),
-                    width: 164.0,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF4abdcc),
-                      border: Border.all(
-                        color: Colors.white,
-                      )
-                    ),
-                    child: Text('注销登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.0)),
-                  ),
-                  onTap: () async {
-                    Navigator.pop(context);
-                    Fluttertoast.showToast(
-                      msg: '注销登录中',
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1
+                          }
+                        ));
+                      }
                     );
-                    loginOut();
+                  }
+                )
+              ],
+            ),
+            token != '' && token != null ? Container(
+              margin: EdgeInsets.only(bottom: 44.0),
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 60.0),
+                  width: 164.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF4abdcc),
+                    border: Border.all(
+                      color: Colors.white,
+                    )
+                  ),
+                  child: Text('注销登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 16.0)),
+                ),
+                onTap: () async {
+                  Navigator.pop(context);
+                  var voidCallback = showWeuiLoadingToast(context: context, message: Text('加载中'));
+                  var flag = await DioWeb.loginOut();
+                  if (flag) {
                     List<CategoryDetail> result = await DioWeb.getFootprintList(id, false);
                     callback(result);
-                  },
-                )
-              ) : Container()
-            ],
-          )  
-        ),
-        color: Color(0xFF4abdcc),
-      )
-    ) 
+                    voidCallback();
+                    getFootprintUserInfo();
+                    showWeuiSuccessToast(context: context, message: Text('注销成功'), closeDuration: Duration(milliseconds: 1000));
+                  }
+                },
+              )
+            ) : Container()
+          ],
+        )  
+      ),
+      color: Color(0xFF4abdcc),
+    )
   );
 }
 
-Widget _lists(List<CategoryDetail> footprintList, String token, String userName, BuildContext context) {
+Widget _lists(context, footprintList, token, userName, homeId, homeName) {
   return Container(
     margin: EdgeInsets.only(top: 15.0),
     child: ListView.builder(
@@ -214,17 +202,23 @@ Widget _lists(List<CategoryDetail> footprintList, String token, String userName,
                           Navigator.of(context).pop();
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) {
-                              var footprintListItem = footprintList[index];
-                              return EditPage(id: footprintListItem.id, categoryId: footprintListItem.categoryId, userId: footprintListItem.userId);
+                              return EditPage(listItem: footprintList[index], homeId: homeId, homeName: homeName);
                             }
                           ));
                         },
-                        isDefaultAction: true,
+                        isDefaultAction: false,
                       ),
                       CupertinoActionSheetAction(
                         child: Text('查看详情'),
-                        onPressed: () {},
-                        isDestructiveAction: true,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return Detail(listItem: footprintList[index]);
+                            }
+                          ));
+                        },
+                        isDestructiveAction: false,
                       ),
                     ],
                     cancelButton: CupertinoActionSheetAction(

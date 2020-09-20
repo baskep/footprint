@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^0.5.10
   cached_network_image: ^2.2.0
   image_picker: ^0.6.7+7
+  cool_ui: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -68,12 +69,13 @@ flutter:
   - assets/img/category.png
   - assets/img/pic.png
   - assets/img/right.png
-  - assets/img/avatar.png
   - assets/img/add-icon.png
   - assets/img/edit-localtion.png
   - assets/img/edit-time.png
   - assets/img/edit-publish.png
   - assets/img/clear-icon.png
+  - assets/img/default-avatar.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
