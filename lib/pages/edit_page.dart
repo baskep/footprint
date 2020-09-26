@@ -27,8 +27,8 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _contentController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
 
   String imageUrl = '';
   String localtion = '中国';
@@ -37,13 +37,15 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    dateTimeStr = dateFormat.format(DateTime.now()); 
     if (widget.listItem != null) {
       var listItem = widget.listItem;
       if (listItem.categoryDetailName != null && listItem.categoryDetailName != '') {
-        _titleController.text = listItem.categoryDetailName;
+        titleController.text = listItem.categoryDetailName;
       }
       if (listItem.content != null && listItem.content != '') {
-        _contentController.text = listItem.content;
+        contentController.text = listItem.content;
       }
       if (listItem.imageUrl != null && listItem.imageUrl != '') {
         imageUrl = listItem.imageUrl;
@@ -54,6 +56,25 @@ class _EditPageState extends State<EditPage> {
       if (listItem.dateTime != null && listItem.dateTime != '') {
         dateTimeStr = listItem.dateTime;
       }
+    }
+  }
+
+  void pickImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      var image = await picker.getImage(source: ImageSource.gallery);
+      var url = await DioWeb.upload(image);
+      if (url != '') {
+        setState(() {
+          imageUrl = url;
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: '请获取相机权限',
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1
+      );
     }
   }
 
@@ -76,7 +97,7 @@ class _EditPageState extends State<EditPage> {
             return IconButton(
               icon: Image.asset('assets/img/edit-publish.png', width: 18.0, height: 18.0),
               onPressed: () {
-                if (_titleController.text == '' || _titleController.text.length == 0) {
+                if (titleController.text == '' || titleController.text.length == 0) {
                   Fluttertoast.showToast(
                     msg: '标题不能为哦',
                     gravity: ToastGravity.CENTER,
@@ -100,7 +121,7 @@ class _EditPageState extends State<EditPage> {
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
                   child: TextFormField(
                     enabled: false,
-                    controller: _titleController,
+                    controller: titleController,
                     style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
                     decoration: InputDecoration(
                       hintText: '故事的标题',
@@ -122,7 +143,7 @@ class _EditPageState extends State<EditPage> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
                   child: TextFormField(
-                    controller: _contentController,
+                    controller: contentController,
                     maxLines: 10,
                     style: TextStyle(color: Color(0xFF5c5c5c), fontWeight: FontWeight.w300),
                     decoration: InputDecoration(
@@ -147,40 +168,30 @@ class _EditPageState extends State<EditPage> {
                   child: imageUrl == '' ? Center(
                     child: IconButton(
                       icon: Image.asset('assets/img/add-icon.png'),
-                      onPressed: () async {
-                        try {
-                          final ImagePicker _picker = ImagePicker();
-                          var image = await _picker.getImage(source: ImageSource.gallery);
-                          var url = await DioWeb.upload(image);
-                          if (url != '') {
-                            setState(() {
-                              imageUrl = url;
-                            });
-                          }
-                        } catch (e) {
-                          Fluttertoast.showToast(
-                            msg: '请获取相机权限',
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1
-                          );
-                        }
+                      onPressed: () {
+                        pickImage();
                       }
                     ),
                   ) : Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+                    child: GestureDetector(
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            )
                           )
                         )
-                      )
+                      ),
+                      onTap: () {
+                        pickImage();
+                      },
                     ),
                     height: 170.0,
                   ),
@@ -293,7 +304,7 @@ class _EditPageState extends State<EditPage> {
               minimumYear: 2000,
               onDateTimeChanged: (dateTime) {
                 setState(() {
-                  DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+                  DateFormat dateFormat = DateFormat('yyyy-MM-dd');
                   dateTimeStr = dateFormat.format(dateTime); 
                 });
               }
@@ -313,7 +324,7 @@ class _EditPageState extends State<EditPage> {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     final voidCallback = showWeuiLoadingToast(context: context, message: Text('发布中'));
-                    ListFormData listFormData = new ListFormData(_contentController.text, imageUrl, localtion, dateTimeStr);
+                    ListFormData listFormData = new ListFormData(contentController.text, imageUrl, localtion, dateTimeStr);
                     bool result = await DioWeb.editeCategoryDetail(listFormData, widget.listItem);
                     voidCallback();
                     if (result) {

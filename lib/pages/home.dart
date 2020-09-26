@@ -38,9 +38,13 @@ class _HomeState extends State<Home> {
 
   List<CategoryDetail> footprintList = new List<CategoryDetail>();
 
+  bool isRefresh = false;
+
   String token = '';
   String userName = '';
   String avatar = '';
+
+  int pageNum = 0;
 
   @override
   void initState() { 
@@ -62,11 +66,20 @@ class _HomeState extends State<Home> {
   }
 
   Future getFootprintList() async {
-    DioWeb.getFootprintList(widget.id, true)
+    DioWeb.getFootprintList(widget.id, pageNum, true)
       .then((data) { 
-        setState(() {
-          footprintList = data;
-        });
+        if (data != null && data.length != 0) {
+          setState(() {
+            pageNum = pageNum + 1;
+            footprintList.addAll(data);
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: '没有更多数据啦',
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1
+          );
+        }
         getFootprintUserInfo();
       });
   }
@@ -87,18 +100,34 @@ class _HomeState extends State<Home> {
           );
         })
       ),
-      drawer: _leftDrawer(context, widget.id, token, userName, avatar, getFootprintUserInfo, (result) {
+      drawer: leftDrawer(context, widget.id, token, userName, avatar, getFootprintUserInfo, (result) {
         setState(() {
-          footprintList = result;
+          if (result != null && result.length != 0) {
+            setState(() {
+              isRefresh = true;
+              pageNum = 1;
+              footprintList = result;
+            });
+          } else {
+            Fluttertoast.showToast(
+              msg: '没有更多数据啦',
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1
+            );
+          }
         });
       }),
-      body: _lists(context, footprintList, token, userName, widget.id, widget.name),
+      body: lists(context, footprintList, token, userName, widget.id, widget.name, pageNum, getFootprintList, isRefresh, () {
+        setState(() {
+          isRefresh = false;
+        });
+      }),
       backgroundColor: Color(0xFFfbf7ed),
     );
   }
 }
 
-Widget _leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, callback) {
+Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, callback) {
   return SmartDrawer(
     widthPercent: 0.5,
     child: Container(
@@ -125,7 +154,7 @@ Widget _leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, c
                             switch (link) {
                               case 'footprint':
                                 return CategoryPage();
-                              case 'link':
+                              case 'userEdit':
                                 return CategoryPage();
                               default:
                                 return CategoryPage();
@@ -160,7 +189,7 @@ Widget _leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, c
                   var voidCallback = showWeuiLoadingToast(context: context, message: Text('加载中'));
                   var flag = await DioWeb.loginOut();
                   if (flag) {
-                    List<CategoryDetail> result = await DioWeb.getFootprintList(id, false);
+                    List<CategoryDetail> result = await DioWeb.getFootprintList(id, 0, false);
                     callback(result);
                     voidCallback();
                     getFootprintUserInfo();
@@ -177,7 +206,25 @@ Widget _leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, c
   );
 }
 
-Widget _lists(context, footprintList, token, userName, homeId, homeName) {
+Widget lists(context, footprintList, token, userName, homeId, homeName, pageNum, getFootprintList, isRefresh, callback) {
+  
+  ScrollController controller = new ScrollController();
+
+  controller.addListener(() {
+    var maxScroll = controller.position.maxScrollExtent;
+    var pixel = controller.position.pixels;
+    if (maxScroll == pixel) {
+      getFootprintList();
+    }
+  });
+
+  if (isRefresh) {   
+    Future.delayed(Duration(seconds: 1), () {
+      controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    });
+    callback();
+  }
+
   return Container(
     margin: EdgeInsets.only(top: 15.0),
     child: ListView.builder(
@@ -256,6 +303,7 @@ Widget _lists(context, footprintList, token, userName, homeId, homeName) {
           )
         );
       },
+      controller: controller,
     )
   ); 
 }

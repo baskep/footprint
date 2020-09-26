@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:footprint/model/category.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:cool_ui/cool_ui.dart';
+
 import 'package:footprint/pages/home.dart';
+
+import 'package:footprint/model/category.dart';
+
 import 'package:footprint/widgets/category/category_title.dart';
 import 'package:footprint/widgets/category/category_item.dart';
+
 import 'package:footprint/api/dio_web.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -16,18 +22,22 @@ class _CategoryPageState extends State<CategoryPage> {
     return CategoryItem(categoryDetail: categoryDetail[index], homeId: homeId, homeName: homeName);
   });
   
-  
   List<CategoryModel> categories = new List<CategoryModel>();
+
+  var contextObj;
+  var voidCallBack;
 
   @override
   void initState() {
     super.initState();
+    contextObj = this.context;
     getCategoryData();
   }
 
   Future getCategoryData() async {
     DioWeb.getCategoryData()
       .then((data) { 
+        voidCallBack = showWeuiLoadingToast(context: contextObj, message: Text('加载中'));
         if (mounted) {
           setState(() {
             categories = data;
@@ -39,12 +49,17 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _categoryList(context),
+      body: _categoryList(context, () {
+        voidCallBack();
+      }),
       backgroundColor: Color(0xFF4abdcc),
     );
   }
 
-  Widget _categoryList(context) {
+  Widget _categoryList(context, callback) {
+    if (categories.length > 0) {
+      callback();
+    }
     return ListView.builder(
       itemCount: categories.length,
       itemBuilder: (BuildContext context, int index) {

@@ -68,6 +68,7 @@ class DioWeb {
       var token = prefs.getString('token');
       var userId = prefs.getString('_id');
       dio.options.headers['authorization'] = token;
+      dio.options.responseType = ResponseType.json;
       var res;
       if (userId != null && userId != '') {
         res = await dio.get('/category', queryParameters: {
@@ -190,13 +191,14 @@ class DioWeb {
   }
 
   // 获取列表数据
-  static Future<List<CategoryDetail>> getFootprintList(String categoryId, bool isUserLogin) async {
+  static Future<List<CategoryDetail>> getFootprintList(String categoryId, int pageNum, bool isUserLogin) async {
     List<CategoryDetail> footprintList = new List<CategoryDetail> ();
     try {
       var prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
       var userId = prefs.getString('_id');
       dio.options.headers['authorization'] = token;
+      dio.options.responseType = ResponseType.json;
       var res;
       if (
         userId != null &&
@@ -205,10 +207,13 @@ class DioWeb {
       ) {
         res = await dio.get('/footprint', queryParameters: {
           'userId': userId,
-          'categoryId': categoryId
+          'categoryId': categoryId,
+          'pageNum': pageNum
         });
       } else {
-        res = await dio.get('/empty-footprint');
+        res = await dio.get('/empty-footprint', queryParameters: {
+          'pageNum': pageNum
+        });
       }
       var code = res.data['status']['code'];
       if (code == 200) {
@@ -220,7 +225,9 @@ class DioWeb {
             await clearUserInfo();
             formatMsg(res.data['status']['message']);
           } 
-          res = await dio.get('/empty-footprint');
+          res = await dio.get('/empty-footprint', queryParameters: {
+            'pageNum': pageNum
+          });
           var code = res.data['status']['code'];
           if (code == 200) {
             var categoryDetailData = res.data['data'];
@@ -244,9 +251,9 @@ class DioWeb {
       'Filename': fileName,
       'key': 'images/' + fileName,
       'policy': OssUtil.policy,
-      'OSSAccessKeyId': 'LTAI4GJ8WyjtCFmw17wYdkvS',
+      'OSSAccessKeyId': '',
       'success_action_status': '200',
-      'signature': OssUtil.instance.getSignature('ik8JLWP7jqpV6yGQ3ZOgt1JLyfwxCm'),
+      'signature': OssUtil.instance.getSignature(''),
       'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
       });
     var response = await dio.post(baseUrl, data: formdata);
@@ -270,7 +277,8 @@ class DioWeb {
         'imageUrl': listFormData.imageUrl,
         'locationStr': listFormData.locationStr
       });
-      if (res.statusCode == 200 || res.data['status']['code'] == 200) {
+      dio.options.responseType = ResponseType.json;
+      if (res.data['status']['code'] == 200) {
         return true;
       } else {
         formatMsg(res.data['status']['message']);

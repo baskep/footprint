@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:footprint/pages/login.dart';
 
@@ -24,14 +25,27 @@ class LeftDrawerAvatar extends StatelessWidget {
                     border: Border.all(color: Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(30.0)
                   ),
-                  child: token != '' && token != null ?  
+                  child: token != null && token != '' ?  
                     GestureDetector(
-                      child: ClipOval(
-                        child: Image.network(
-                          'https://s3.cn-north-1.amazonaws.com.cn/mococn-fxa-prod/8a35b20c4579951a964ff1ab192f71fe',
+                      child: avatar != null && avatar != '' ? 
+                        ClipOval(
+                          child:  CachedNetworkImage(
+                            imageUrl: avatar,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(4)),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                )
+                              )
+                            )
+                          ),
+                        ) : ClipOval(
+                        child: Image.asset(
+                          'assets/img/default-avatar.png',
                           width: 59,
                           height: 59,
-                          fit: BoxFit.cover,
                         ),
                       ),
                       onTap: () {
@@ -58,7 +72,12 @@ class LeftDrawerAvatar extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 10.0),
                   width: 80.0,
-                  child: Text(token != '' && token != null ? userName : '请登录', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 15.0, color: Colors.white))
+                  child: Text(
+                    token != '' && token != null ? userName : '请登录', 
+                    maxLines: 1, 
+                    overflow: TextOverflow.ellipsis, 
+                    style: TextStyle(fontSize: 15.0, color: Colors.white)
+                  )
                 ),
               ],
             ),
