@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:footprint/api/dio_web.dart';
-import 'package:footprint/model/category.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cool_ui/cool_ui.dart';
@@ -9,6 +7,7 @@ import 'package:cool_ui/cool_ui.dart';
 import 'package:footprint/pages/category.dart';
 import 'package:footprint/pages/detail.dart';
 import 'package:footprint/pages/edit_page.dart';
+import 'package:footprint/pages/user_edit.dart';
 
 import 'package:footprint/widgets/left_drawer/left_drawer_avatar.dart';
 import 'package:footprint/widgets/left_drawer/left_drawer_list_item.dart';
@@ -19,6 +18,9 @@ import 'package:footprint/widgets/list/list_empty_image.dart';
 import 'package:footprint/widgets/list/list_empty_mask.dart';
 import 'package:footprint/widgets/list/list_empty_text.dart';
 import 'package:footprint/widgets/common/smart_drawer.dart'; 
+
+import 'package:footprint/api/dio_web.dart';
+import 'package:footprint/model/category.dart';
 
 import 'package:footprint/enum/left_drawer_nav.dart';
 
@@ -155,7 +157,7 @@ Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, ca
                               case 'footprint':
                                 return CategoryPage();
                               case 'userEdit':
-                                return CategoryPage();
+                                return UserEdit();
                               default:
                                 return CategoryPage();
                                 break;

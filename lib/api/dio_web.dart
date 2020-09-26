@@ -290,4 +290,34 @@ class DioWeb {
     }
   }
 
+  // 修改账户信息
+  static Future<bool> editUserInfo(data, type) async {
+    try {
+      if (type == 'pd') {
+        data = MD5.generateMd5(data);
+      }
+      var prefs = await SharedPreferences.getInstance();
+      var mobile = prefs.getString('mobile');
+      var token = prefs.getString('token');
+      
+      dio.options.headers['authorization'] = token;
+      dio.options.responseType = ResponseType.json;
+
+      var res = await dio.post('/edit-user', data: {
+        'type': type,
+        'mobile': mobile,
+        'data': data
+      });
+      if (res.data['status']['code'] == 200) {
+        return true;
+      } else {
+        formatMsg(res.data['status']['message']);
+        return false;
+      }
+    } catch (e) {
+      formatMsg('网络错误');
+      return false;
+    }
+  } 
+
 }

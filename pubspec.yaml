@@ -75,6 +75,7 @@ flutter:
   - assets/img/edit-publish.png
   - assets/img/clear-icon.png
   - assets/img/default-avatar.png
+  - assets/img/right-icon.png
 
 
   # To add assets to your application, add an assets section, like this:
