@@ -99,7 +99,7 @@ class _EditPageState extends State<EditPage> {
               onPressed: () {
                 if (titleController.text == '' || titleController.text.length == 0) {
                   Fluttertoast.showToast(
-                    msg: '标题不能为哦',
+                    msg: '标题不能为空哦',
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 1
                   );
@@ -317,7 +317,7 @@ class _EditPageState extends State<EditPage> {
           context: preContext, 
           builder: (context) {
             return CupertinoAlertDialog(
-              title: Text('确定发布或修改内容？', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300)),
+              title: Text('确定发布或修改内容？'),
               actions:<Widget>[
                 CupertinoDialogAction(
                   child: Text('确定'),
