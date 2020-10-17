@@ -2,20 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cool_ui/cool_ui.dart';
+import 'package:footprint/pages/user_edit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserNameEditDetail extends StatefulWidget {
+import 'package:footprint/api/dio_web.dart';
+
+class UserEditName extends StatefulWidget {
 
   final String paramData;
 
-  UserNameEditDetail({this.paramData});
+  UserEditName({this.paramData});
 
   @override
-  _UserNameEditDetailState createState() => _UserNameEditDetailState();
+  _UserEditNameState createState() => _UserEditNameState();
 }
 
-class _UserNameEditDetailState extends State<UserNameEditDetail> {
+class _UserEditNameState extends State<UserEditName> {
+
+  var cacheContext;
 
   TextEditingController userNameController = TextEditingController();
+
+  @override
+  void initState() { 
+    super.initState();
+    cacheContext = this.context;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +89,6 @@ class _UserNameEditDetailState extends State<UserNameEditDetail> {
               child: TextFormField(          
                 controller: userNameController,
                 inputFormatters: <TextInputFormatter>[
-                  WhitelistingTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(20)
                 ],
                 style: TextStyle(color: Color(0xFF999999), fontWeight: FontWeight.w300),
@@ -108,6 +120,21 @@ class _UserNameEditDetailState extends State<UserNameEditDetail> {
               child: Text('确定'),
               onPressed: () async {
                 Navigator.of(context).pop();
+                final voidCallback = showWeuiLoadingToast(context: context, message: Text('修改中'));
+                bool result = await DioWeb.editUserInfo(userNameController.text, 'userName', preContext);
+                var sp = await SharedPreferences.getInstance();
+                sp.setString('userName', userNameController.text);
+                voidCallback();
+                  if (result) {
+                  showWeuiSuccessToast(context: context, message: Text('修改用户名成功'), closeDuration: Duration(milliseconds: 1000));
+                  Future.delayed(Duration(milliseconds: 1200), (){
+                    Navigator.of(preContext).push(MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return UserEdit();
+                      }
+                    )); 
+                  });
+                }
               },
             ),
             CupertinoDialogAction(

@@ -325,7 +325,7 @@ class _EditPageState extends State<EditPage> {
                     Navigator.of(context).pop();
                     final voidCallback = showWeuiLoadingToast(context: context, message: Text('发布中'));
                     ListFormData listFormData = new ListFormData(contentController.text, imageUrl, localtion, dateTimeStr);
-                    bool result = await DioWeb.editeCategoryDetail(listFormData, widget.listItem);
+                    bool result = await DioWeb.editCategoryDetail(listFormData, widget.listItem);
                     voidCallback();
                     if (result) {
                       showWeuiSuccessToast(context: context, message: Text('发布成功'), closeDuration: Duration(milliseconds: 1000));

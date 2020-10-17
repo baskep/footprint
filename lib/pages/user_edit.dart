@@ -2,7 +2,8 @@ import 'package:cool_ui/cool_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:footprint/pages/user_edit_detail.dart';
+import 'package:footprint/pages/user_edit_name.dart';
+import 'package:footprint/pages/user_edit_pd.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +17,7 @@ class UserEdit extends StatefulWidget {
 
 class _UserEditState extends State<UserEdit> {
 
-  var contextObj;
+  var cacheContext;
   var sp;
 
   String imageUrl = '';
@@ -26,7 +27,7 @@ class _UserEditState extends State<UserEdit> {
   void initState() {
     super.initState();
     initAvatarData();
-    contextObj = this.context;
+    cacheContext = this.context;
   }
 
   void initAvatarData() async {
@@ -46,7 +47,7 @@ class _UserEditState extends State<UserEdit> {
       var image = await picker.getImage(source: ImageSource.gallery);
       var url = await DioWeb.upload(image);
       if (url != '') {
-        var result = await DioWeb.editUserInfo(url, 'avatar');
+        var result = await DioWeb.editUserInfo(url, 'avatar', cacheContext);
         if (result) {
           setState(() {
             sp.setString('avatar', url);
@@ -150,7 +151,7 @@ class _UserEditState extends State<UserEdit> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return UserNameEditDetail(paramData: userName != null && userName != '' ? userName : '');
+                                return UserEditName(paramData: userName != null && userName != '' ? userName : '');
                               }
                             ));
                           },
@@ -180,14 +181,16 @@ class _UserEditState extends State<UserEdit> {
                     child: Text('密码', style: TextStyle(fontWeight: FontWeight.w300)),
                   ),
                   Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 12.0),
-                          child: Image.asset('assets/img/right-icon.png', width: 14.0, height: 14.0,)
-                        )
-                      ],
-                    )
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return UserEditPassword();
+                          }
+                        ));
+                      },
+                      child: Image.asset('assets/img/right-icon.png', width: 14.0, height: 14.0),
+                    ),
                   )
                 ],
               ),

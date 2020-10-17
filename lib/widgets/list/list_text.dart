@@ -64,12 +64,13 @@ class ListText extends StatelessWidget {
                     Container(
                       width: 30,
                       height: 30,
-                      child: categoryDetail.avatar != null && categoryDetail.avatar != '' ?
+                      child: categoryDetail.avatar != null && categoryDetail.avatar != '' &&
+                        categoryDetail.imageUrl != null && categoryDetail.imageUrl != '' ? 
                         CachedNetworkImage(
                           imageUrl: categoryDetail.avatar,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
                               image: DecorationImage(
                                 image: imageProvider,
                                 fit: BoxFit.cover,

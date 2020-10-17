@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:footprint/model/list_form_data.dart';
+import 'package:footprint/pages/login.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,6 +27,20 @@ class DioWeb {
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1
     );
+  }
+
+  // 登录过期提示信息
+  static bool formatResultData(res, context) {
+    final code = res.data['status']['code'];
+    if (code == 200) {
+      return true;
+    } else if (code == 113) {
+      formatMsg('登录过期，请重新登录');
+      Navigator.pushReplacementNamed(context, ' /login');
+    } else {
+      formatMsg(res.data['status']['message']);
+      return false;
+    }
   }
 
   // 清空本地存储用户信息
@@ -266,7 +283,7 @@ class DioWeb {
   }
 
   // 编辑具体分类选项
-  static Future<bool> editeCategoryDetail(ListFormData listFormData, CategoryDetail listItem) async {
+  static Future<bool> editCategoryDetail(ListFormData listFormData, CategoryDetail listItem) async {
     try {
       var res = await dio.post('/edit-list', data: {
         '_id': listItem.id,
@@ -291,13 +308,10 @@ class DioWeb {
   }
 
   // 修改账户信息
-  static Future<bool> editUserInfo(data, type) async {
+  static Future<bool> editUserInfo(data, type, context) async {
     try {
-      if (type == 'pd') {
-        data = MD5.generateMd5(data);
-      }
       var prefs = await SharedPreferences.getInstance();
-      var mobile = prefs.getString('mobile');
+      var id = prefs.getString('_id');
       var token = prefs.getString('token');
       
       dio.options.headers['authorization'] = token;
@@ -305,15 +319,34 @@ class DioWeb {
 
       var res = await dio.post('/edit-user', data: {
         'type': type,
-        'mobile': mobile,
+        'id': id,
         'data': data
       });
-      if (res.data['status']['code'] == 200) {
-        return true;
-      } else {
-        formatMsg(res.data['status']['message']);
-        return false;
-      }
+      final formatResultFlag = formatResultData(res, context);
+      return formatResultFlag;
+    } catch (e) {
+      formatMsg('网络错误');
+      return false;
+    }
+  } 
+
+  // 修改密码信息
+  static Future<bool> editUserPdInfo(oldPd, newPd, context) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final id = prefs.getString('_id');
+      final token = prefs.getString('token');
+      
+      dio.options.headers['authorization'] = token;
+      dio.options.responseType = ResponseType.json;
+
+      final res = await dio.post('/user-info', data: {
+        'id': id,
+        'oldData': MD5.generateMd5(oldPd),
+        'newData': MD5.generateMd5(newPd)
+      });
+      final formatResultFlag = formatResultData(res, context);
+      return formatResultFlag;
     } catch (e) {
       formatMsg('网络错误');
       return false;
