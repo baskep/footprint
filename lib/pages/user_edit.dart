@@ -1,12 +1,12 @@
-import 'package:cool_ui/cool_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cool_ui/cool_ui.dart';
+
 import 'package:footprint/pages/user_edit_name.dart';
 import 'package:footprint/pages/user_edit_pd.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:footprint/api/dio_web.dart';
 

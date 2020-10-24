@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:footprint/pages/more_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cool_ui/cool_ui.dart';
 
@@ -158,6 +159,8 @@ Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, ca
                                 return CategoryPage();
                               case 'userEdit':
                                 return UserEdit();
+                              case 'moreInfo':
+                                return MoreInfo();
                               default:
                                 return CategoryPage();
                                 break;
