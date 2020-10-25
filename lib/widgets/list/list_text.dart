@@ -77,7 +77,8 @@ class ListText extends StatelessWidget {
                               )
                             )
                           )
-                        ) : categoryDetail.imageUrl != null && categoryDetail.imageUrl != '' ?
+                        ) : (categoryDetail.imageUrl != null && categoryDetail.imageUrl != '') || 
+                        ((categoryDetail.localtion != null || categoryDetail.localtion != '') && (categoryDetail.dateTime != null || categoryDetail.dateTime != '')) ?
                         Container(
                           child: ClipOval(
                             child: Image.asset(
@@ -96,7 +97,9 @@ class ListText extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        categoryDetail.imageUrl != '' ? 'by ' + categoryDetail.user : '', 
+                        (categoryDetail.imageUrl != null || categoryDetail.imageUrl != '') || 
+                        ((categoryDetail.localtion != null || categoryDetail.localtion != '') && (categoryDetail.dateTime != null || categoryDetail.dateTime != '')) ?
+                        'by ' + categoryDetail.user : '', 
                         style: TextStyle(color: Colors.white, fontSize: 12.0),
                       ),
                     )

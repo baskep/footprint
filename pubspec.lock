@@ -125,6 +125,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_2d_amap:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "190980e75a489a3c83387bb301ec80c6eb506a8c"
+      url: "https://github.com/simplezhli/flutter_2d_amap.git"
+    source: git
+    version: "0.1.0+1"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -210,6 +219,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.16.1"
+  js:
+    dependency: transitive
+    description:
+      name: js
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.2"
   matcher:
     dependency: transitive
     description:

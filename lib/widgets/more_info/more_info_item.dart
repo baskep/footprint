@@ -8,7 +8,7 @@ class MoreInfoItem extends StatelessWidget {
   final callback;
   final bool type;
 
-  const MoreInfoItem({Key key, this.name, this.url, this.callback, this.type}) : super(key: key);
+  MoreInfoItem({Key key, this.name, this.url, this.callback, this.type}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {

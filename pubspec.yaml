@@ -25,6 +25,9 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_2d_amap:
+    git:
+      url: https://github.com/simplezhli/flutter_2d_amap.git
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -76,7 +79,7 @@ flutter:
   - assets/img/clear-icon.png
   - assets/img/default-avatar.png
   - assets/img/right-icon.png
-
+  - assets/img/search-icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

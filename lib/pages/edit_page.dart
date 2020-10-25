@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:footprint/pages/edit_map_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cool_ui/cool_ui.dart';
@@ -229,15 +230,43 @@ class _EditPageState extends State<EditPage> {
                               Image.asset('assets/img/edit-localtion.png'),
                               Container(
                                 margin: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  '故事发生在哪里',
-                                  style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                                child: localtion == null || localtion == '' || localtion == '中国' ? 
+                                  Text(
+                                    '故事发生在哪里',
+                                    style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                                  ) : Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: MediaQuery.of(context).size.width / 2 - 90,
+                                      child: Text(    
+                                        localtion,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 20.0),
+                                        child: Image.asset('assets/img/clear-icon.png', width: 14.0,),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          localtion = '';
+                                        });
+                                      },
+                                    )
+                                  ],
                                 ),
                               )
                             ],
                           ),
                           onTap: () {
-                            print('点击选择地点');
+                            showAddressDialog(context, (address) {
+                              setState(() {
+                                localtion = address;
+                              });
+                            });
                           },
                         )
                       ),
@@ -249,7 +278,8 @@ class _EditPageState extends State<EditPage> {
                               Image.asset('assets/img/edit-time.png'),
                               Container(
                                 margin: EdgeInsets.only(left: 8.0),
-                                child: dateTimeStr == '' || dateTimeStr == null ? Text(
+                                child: dateTimeStr == null || dateTimeStr == '' ? 
+                                Text(
                                   '故事发生的时间',
                                   style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
                                 ) : Row(
@@ -288,6 +318,21 @@ class _EditPageState extends State<EditPage> {
         ),
       ),
       backgroundColor: Color(0xFFfbf7ed),
+    );
+  }
+
+  void showAddressDialog(preContext, addressCallback) {
+    showDialog(
+      context: preContext,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(preContext).size.height,
+          child: EditMapPage(callback: (addressName) {
+            Navigator.of(preContext).pop();
+            addressCallback(addressName);
+          }),
+        );
+      } 
     );
   }
   

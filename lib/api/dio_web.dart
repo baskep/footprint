@@ -36,6 +36,7 @@ class DioWeb {
     } else if (code == 113) {
       formatMsg('登录过期，请重新登录');
       Navigator.pushReplacementNamed(context, ' /login');
+      return false;
     } else {
       formatMsg(res.data['status']['message']);
       return false;
@@ -129,6 +130,7 @@ class DioWeb {
   // 获取验证码
   static Future<String> getVerifyCode() async {
     try {
+      dio.options.responseType = ResponseType.json;
       var res = await dio.get('/verify-code');
       if (res.data['status']['code'] == 200 && res.data['data']['code'] != null) {
         return res.data['data']['code'];
@@ -144,6 +146,7 @@ class DioWeb {
 
   // 登录
   static Future<bool> login(LoginFormDataModel loginFormData) async {
+    dio.options.responseType = ResponseType.json;
     dio.options.headers['authorization'] = MD5.generateMd5(loginFormData.password);
     try {
       var res = await dio.post('/login', data: {
@@ -187,6 +190,7 @@ class DioWeb {
   // 注销登录
   static Future<bool> loginOut() async {
     try {
+      dio.options.responseType = ResponseType.json;
       var prefs = await SharedPreferences.getInstance();
       var mobile = prefs.getString('mobile');
       var res = await dio.post('/login-out', data: {
@@ -267,9 +271,9 @@ class DioWeb {
       'Filename': fileName,
       'key': 'images/' + fileName,
       'policy': OssUtil.policy,
-      'OSSAccessKeyId': 'LTAI4GJ8WyjtCFmw17wYdkvS',
+      'OSSAccessKeyId': '',
       'success_action_status': '200',
-      'signature': OssUtil.instance.getSignature('ik8JLWP7jqpV6yGQ3ZOgt1JLyfwxCm'),
+      'signature': OssUtil.instance.getSignature(''),
       'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
       });
     var response = await dio.post(baseUrl, data: formdata);
@@ -284,6 +288,7 @@ class DioWeb {
   // 编辑具体分类选项
   static Future<bool> editCategoryDetail(ListFormData listFormData, CategoryDetail listItem) async {
     try {
+      dio.options.responseType = ResponseType.json;
       var res = await dio.post('/edit-list', data: {
         '_id': listItem.id,
         'id': listItem.userId,
@@ -293,7 +298,6 @@ class DioWeb {
         'imageUrl': listFormData.imageUrl,
         'locationStr': listFormData.locationStr
       });
-      dio.options.responseType = ResponseType.json;
       if (res.data['status']['code'] == 200) {
         return true;
       } else {
