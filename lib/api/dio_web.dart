@@ -270,9 +270,9 @@ class DioWeb {
       'Filename': fileName,
       'key': 'images/' + fileName,
       'policy': OssUtil.policy,
-      'OSSAccessKeyId': 'LTAI4GJ8WyjtCFmw17wYdkvS',
+      'OSSAccessKeyId': '',
       'success_action_status': '200',
-      'signature': OssUtil.instance.getSignature('ik8JLWP7jqpV6yGQ3ZOgt1JLyfwxCm'),
+      'signature': OssUtil.instance.getSignature(''),
       'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
       });
     var response = await dio.post(baseUrl, data: formdata);
