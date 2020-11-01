@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
     return Container(
       child: MaterialApp(
         routes: {
-          '/login': (context) => Login()
+          '/login': (context) => Login(),
+          '/home': (context) => Home(id: '', name: '生活'),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

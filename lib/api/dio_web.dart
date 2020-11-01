@@ -77,16 +77,15 @@ class DioWeb {
   }
 
   // 获取分类信息
-  // todo 优化逻辑，前后台
   static Future<List<CategoryModel>> getCategoryData() async {
     List<CategoryModel> categories = new List<CategoryModel> ();
     try {
       var prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
       var userId = prefs.getString('_id');
+      var res;
       dio.options.headers['authorization'] = token;
       dio.options.responseType = ResponseType.json;
-      var res;
       if (userId != null && userId != '') {
         res = await dio.get('/category', queryParameters: {
           'userId': userId
@@ -271,9 +270,9 @@ class DioWeb {
       'Filename': fileName,
       'key': 'images/' + fileName,
       'policy': OssUtil.policy,
-      'OSSAccessKeyId': '',
+      'OSSAccessKeyId': 'LTAI4GJ8WyjtCFmw17wYdkvS',
       'success_action_status': '200',
-      'signature': OssUtil.instance.getSignature(''),
+      'signature': OssUtil.instance.getSignature('ik8JLWP7jqpV6yGQ3ZOgt1JLyfwxCm'),
       'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
       });
     var response = await dio.post(baseUrl, data: formdata);

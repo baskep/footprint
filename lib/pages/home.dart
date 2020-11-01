@@ -46,6 +46,7 @@ class _HomeState extends State<Home> {
   String token = '';
   String userName = '';
   String avatar = '';
+  String id = '';
 
   int pageNum = 0;
 
@@ -61,10 +62,12 @@ class _HomeState extends State<Home> {
     var tokenData = sp.getString('token');
     var userNameData = sp.getString('userName');    
     var avatarData = sp.getString('avatar');
+    var idData = sp.getString('_id');
     setState(() {
       token = tokenData;
       userName = userNameData;
       avatar = avatarData;
+      id = idData;
     });
   }
 
@@ -76,14 +79,8 @@ class _HomeState extends State<Home> {
             pageNum = pageNum + 1;
             footprintList.addAll(data);
           });
-        } else {
-          Fluttertoast.showToast(
-            msg: '没有更多数据啦',
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1
-          );
-        }
-        getFootprintUserInfo();
+          getFootprintUserInfo();
+        } 
       });
   }
 
@@ -103,7 +100,7 @@ class _HomeState extends State<Home> {
           );
         })
       ),
-      drawer: leftDrawer(context, widget.id, token, userName, avatar, getFootprintUserInfo, (result) {
+      drawer: leftDrawer(context, widget.id, token, userName, avatar, getFootprintUserInfo, id, (result) {
         setState(() {
           if (result != null && result.length != 0) {
             setState(() {
@@ -130,7 +127,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, callback) {
+Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, userId, callback) {
   return SmartDrawer(
     widthPercent: 0.5,
     child: Container(
@@ -151,22 +148,31 @@ Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, ca
                       text: LeftDrawerNav.leftDrawerNavList[1][index],
                       link: LeftDrawerNav.leftDrawerNavList[2][index],
                       callback: (link) {
-                        Navigator.pop(context);
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            switch (link) {
-                              case 'footprint':
-                                return CategoryPage();
-                              case 'userEdit':
-                                return UserEdit();
-                              case 'moreInfo':
-                                return MoreInfo();
-                              default:
-                                return CategoryPage();
-                                break;
+                        if (link == 'userEdit' && (userId == null || userId == '')) {
+                          Fluttertoast.showToast(
+                            msg: '请先登录后在操作',
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1
+                          );
+                          return;
+                        } else {
+                          Navigator.pop(context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              switch (link) {
+                                case 'footprint':
+                                  return CategoryPage();
+                                case 'userEdit':
+                                  return UserEdit();
+                                case 'moreInfo':
+                                  return MoreInfo();
+                                default:
+                                  return CategoryPage();
+                                  break;
+                              }
                             }
-                          }
-                        ));
+                          ));
+                        }
                       }
                     );
                   }
@@ -194,12 +200,16 @@ Widget leftDrawer(context, id, token, userName, avatar, getFootprintUserInfo, ca
                   var voidCallback = showWeuiLoadingToast(context: context, message: Text('加载中'));
                   var flag = await DioWeb.loginOut();
                   if (flag) {
-                    List<CategoryDetail> result = await DioWeb.getFootprintList(id, 0, false);
-                    callback(result);
-                    voidCallback();
-                    getFootprintUserInfo();
                     showWeuiSuccessToast(context: context, message: Text('注销成功'), closeDuration: Duration(milliseconds: 1000));
+                    Future.delayed(Duration(milliseconds: 1000), () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return Home(id: '', name: '生活');
+                        }
+                      )); 
+                    });
                   }
+                  voidCallback();
                 },
               )
             ) : Container()
