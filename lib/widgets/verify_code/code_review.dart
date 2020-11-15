@@ -1,7 +1,6 @@
+import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
 import 'package:footprint/widgets/verify_code/code_print.dart';

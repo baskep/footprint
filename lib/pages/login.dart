@@ -211,7 +211,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           Future.delayed(Duration(seconds: 1), () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return Home(id: '5f22efff606088e6aa66764c', name: '生活');
+                                return Home(id: '', name: '生活');
                               }
                             ));     
                           });

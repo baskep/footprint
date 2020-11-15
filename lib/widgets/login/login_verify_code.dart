@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:footprint/widgets/verify_code/code_review.dart';
-import 'package:footprint/widgets/verify_code/code_print.dart';
-
 
 class LoginVerifyCode extends StatelessWidget {
 

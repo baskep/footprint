@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:footprint/model/category.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:footprint/model/category.dart';
 
 class ListText extends StatelessWidget {
 

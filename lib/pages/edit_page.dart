@@ -112,210 +112,215 @@ class _EditPageState extends State<EditPage> {
           })
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: TextFormField(
-                    enabled: false,
-                    controller: titleController,
-                    style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
-                    decoration: InputDecoration(
-                      hintText: '故事的标题',
-                      hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
-                      disabledBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
+      body: GestureDetector(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: TextFormField(
+                      enabled: false,
+                      controller: titleController,
+                      style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                      decoration: InputDecoration(
+                        hintText: '故事的标题',
+                        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                      cursorColor: Color(0xFFCCCCCC),
                     ),
-                    cursorColor: Color(0xFFCCCCCC),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    border: Border.all(color: Color(0xFFe7e7e7), width: 1.0),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(color: Color(0xFFe7e7e7), width: 1.0),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20.0),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: TextFormField(
-                    controller: contentController,
-                    maxLines: 10,
-                    style: TextStyle(color: Color(0xFF5c5c5c), fontWeight: FontWeight.w300),
-                    decoration: InputDecoration(
-                      hintText: '故事的开头...',
-                      hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
-                      disabledBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
+                Container(
+                  margin: EdgeInsets.only(top: 20.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: TextFormField(
+                      controller: contentController,
+                      maxLines: 10,
+                      style: TextStyle(color: Color(0xFF5c5c5c), fontWeight: FontWeight.w300),
+                      decoration: InputDecoration(
+                        hintText: '故事的开头...',
+                        hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                      ),
+                      cursorColor: Color(0xFFCCCCCC),
                     ),
-                    cursorColor: Color(0xFFCCCCCC),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    border: Border.all(color: Color(0xFFe7e7e7), width: 1.0),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(color: Color(0xFFe7e7e7), width: 1.0),
-                ),
-              ),
-              Container(           
-                margin: EdgeInsets.only(top: 10.0),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: imageUrl == '' ? Center(
-                    child: IconButton(
-                      icon: Image.asset('assets/img/add-icon.png'),
-                      onPressed: () {
-                        pickImage();
-                      }
-                    ),
-                  ) : Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    child: GestureDetector(
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
+                Container(           
+                  margin: EdgeInsets.only(top: 10.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: imageUrl == '' ? Center(
+                      child: IconButton(
+                        icon: Image.asset('assets/img/add-icon.png'),
+                        onPressed: () {
+                          pickImage();
+                        }
+                      ),
+                    ) : Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child: GestureDetector(
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              )
                             )
                           )
-                        )
+                        ),
+                        onTap: () {
+                          pickImage();
+                        },
                       ),
-                      onTap: () {
-                        pickImage();
-                      },
-                    ),
-                    height: 170.0,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10.0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      width: 0.5, 
-                      color: Color(0xFFCCCCCC), 
+                      height: 170.0,
                     ),
                   ),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2 - 20,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(
-                              width: 0.5, 
-                              color: Color(0xFFCCCCCC), 
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 0.5, 
+                        color: Color(0xFFCCCCCC), 
+                      ),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 20,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              right: BorderSide(
+                                width: 0.5, 
+                                color: Color(0xFFCCCCCC), 
+                              ),
                             ),
                           ),
+                          child: GestureDetector(
+                            child: Row(
+                              children: <Widget>[
+                                Image.asset('assets/img/edit-localtion.png'),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8.0),
+                                  child: localtion == null || localtion == '' || localtion == '中国' ? 
+                                    Text(
+                                      '故事发生在哪里',
+                                      style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                                    ) : Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: MediaQuery.of(context).size.width / 2 - 90,
+                                        child: Text(    
+                                          localtion,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 20.0),
+                                          child: Image.asset('assets/img/clear-icon.png', width: 14.0,),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            localtion = '';
+                                          });
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              showAddressDialog(context, (address) {
+                                setState(() {
+                                  localtion = address;
+                                });
+                              });
+                            },
+                          )
                         ),
-                        child: GestureDetector(
-                          child: Row(
-                            children: <Widget>[
-                              Image.asset('assets/img/edit-localtion.png'),
-                              Container(
-                                margin: EdgeInsets.only(left: 8.0),
-                                child: localtion == null || localtion == '' || localtion == '中国' ? 
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2 - 20,
+                          child: GestureDetector(
+                            child: Row(
+                              children: <Widget>[
+                                Image.asset('assets/img/edit-time.png'),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8.0),
+                                  child: dateTimeStr == null || dateTimeStr == '' ? 
                                   Text(
-                                    '故事发生在哪里',
+                                    '故事发生的时间',
                                     style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
                                   ) : Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width / 2 - 90,
-                                      child: Text(    
-                                        localtion,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
+                                    children: <Widget>[
+                                      Text(    
+                                        dateTimeStr,
                                         style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 20.0),
-                                        child: Image.asset('assets/img/clear-icon.png', width: 14.0,),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          localtion = '';
-                                        });
-                                      },
-                                    )
-                                  ],
+                                      GestureDetector(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 20.0),
+                                          child: Image.asset('assets/img/clear-icon.png', width: 14.0,),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            dateTimeStr = '';
+                                          });
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            showAddressDialog(context, (address) {
-                              setState(() {
-                                localtion = address;
-                              });
-                            });
-                          },
+                              ],
+                            ),
+                            onTap: () {
+                              showModel(context, 'date', '', '');
+                            },
+                          )
                         )
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2 - 20,
-                        child: GestureDetector(
-                          child: Row(
-                            children: <Widget>[
-                              Image.asset('assets/img/edit-time.png'),
-                              Container(
-                                margin: EdgeInsets.only(left: 8.0),
-                                child: dateTimeStr == null || dateTimeStr == '' ? 
-                                Text(
-                                  '故事发生的时间',
-                                  style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
-                                ) : Row(
-                                  children: <Widget>[
-                                    Text(    
-                                      dateTimeStr,
-                                      style: TextStyle(color: Color(0xFFCCCCCC), fontWeight: FontWeight.w300),
-                                    ),
-                                    GestureDetector(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 20.0),
-                                        child: Image.asset('assets/img/clear-icon.png', width: 14.0,),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          dateTimeStr = '';
-                                        });
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            showModel(context, 'date', '', '');
-                          },
-                        )
-                      )
-                    ],
-                  ),
+                      ],
+                    ),
+                  )
                 )
-              )
-            ],
+              ],
+            ),
           ),
         ),
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
       ),
       backgroundColor: Color(0xFFfbf7ed),
     );

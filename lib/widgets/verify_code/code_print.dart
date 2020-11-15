@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class CodePaint extends CustomPainter {
   final List<Offset> lineOffsets;

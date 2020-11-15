@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:footprint/widgets/more_info/more_info_item.dart';

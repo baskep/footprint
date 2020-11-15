@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:footprint/model/category.dart';
+
 import 'package:footprint/widgets/detail_content/detail_content_image.dart';
 import 'package:footprint/widgets/detail_content/detail_content_text.dart';
 import 'package:footprint/widgets/detail_content/detail_content_info.dart';
