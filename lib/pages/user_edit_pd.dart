@@ -187,7 +187,7 @@ class _UserEditPasswordState extends State<UserEditPassword> {
                 voidCallback();
                 if (result) {
                   showWeuiSuccessToast(context: context, message: Text('修改密码成功'), closeDuration: Duration(milliseconds: 1000));
-                  Future.delayed(Duration(milliseconds: 1200), (){
+                  Future.delayed(Duration(milliseconds: 1200), () {
                     Navigator.of(preContext).push(MaterialPageRoute(
                       builder: (BuildContext context) {
                         return UserEdit();
@@ -199,7 +199,7 @@ class _UserEditPasswordState extends State<UserEditPassword> {
             ),
             CupertinoDialogAction(
               child: Text('取消'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),

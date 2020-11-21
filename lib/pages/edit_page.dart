@@ -379,7 +379,7 @@ class _EditPageState extends State<EditPage> {
                     voidCallback();
                     if (result) {
                       showWeuiSuccessToast(context: context, message: Text('发布成功'), closeDuration: Duration(milliseconds: 1000));
-                      Future.delayed(Duration(milliseconds: 1200), (){
+                      Future.delayed(Duration(milliseconds: 1200), () {        
                         Navigator.of(preContext).push(MaterialPageRoute(
                           builder: (BuildContext context) {
                             return Home(id: id, name: name);
@@ -391,7 +391,7 @@ class _EditPageState extends State<EditPage> {
                 ),
                 CupertinoDialogAction(
                   child: Text('取消'),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),

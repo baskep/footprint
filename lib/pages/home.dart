@@ -62,7 +62,6 @@ class _HomeState extends State<Home> {
     var userNameData = sp.getString('userName');    
     var avatarData = sp.getString('avatar');
     var idData = sp.getString('_id');
-    print('初始化时');
     setState(() {
       token = tokenData;
       userName = userNameData;
@@ -319,6 +318,6 @@ Widget lists(context, footprintList, token, userName, homeId, homeName, pageNum,
         );
       },
       controller: controller,
-    )
+    ),
   ); 
 }

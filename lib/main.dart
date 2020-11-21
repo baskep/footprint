@@ -19,8 +19,12 @@ class MyApp extends StatelessWidget {
     return Container(
       child: MaterialApp(
         routes: {
-          '/login': (context) => Login(),
-          '/home': (context) => Home(id: '', name: '生活'),
+          '/login': (context) => Login()
+        },
+        onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == '/home') {
+            return MaterialPageRoute(builder: (BuildContext context) => Home(id: '', name: '生活'));
+          }
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

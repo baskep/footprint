@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_2d_amap/flutter_2d_amap.dart';
@@ -17,8 +16,7 @@ class EditMapPage extends StatefulWidget {
 
 class _EditMapPageState extends State<EditMapPage> {
   String addressName = '';
-  List<PoiSearch> list = [];
-  int positionIndex = 0;
+  final positionIndex = 0;
 
   final ScrollController scrollController = ScrollController();
 
@@ -48,9 +46,7 @@ class _EditMapPageState extends State<EditMapPage> {
               flex: 9,
               child: AMap2DView(
                 onPoiSearched: (result) {
-                  scrollController.animateTo(0.0, duration: const Duration(milliseconds: 10), curve: Curves.ease);
-                  positionIndex = 0;
-                  list = result;
+                  // scrollController.animateTo(0.0, duration: const Duration(milliseconds: 10), curve: Curves.ease);
                   String detailAddress = '中国';
                   if (result == null || result.length == 0) {
                     Fluttertoast.showToast(
@@ -59,11 +55,8 @@ class _EditMapPageState extends State<EditMapPage> {
                       timeInSecForIosWeb: 1
                     );
                   } else {
-                    final position = list[positionIndex];
-                    if (
-                      position != null && 
-                      position.title != ''
-                    ) {
+                    final position = result[positionIndex];
+                    if (position != null &&  position.title != '') {
                       detailAddress = position.title;
                     }
                   }
@@ -73,7 +66,6 @@ class _EditMapPageState extends State<EditMapPage> {
                 },
                 onAMap2DViewCreated: (controller) {
                   aMap2DController = controller;
-                  //aMap2DController.search('重庆');
                 },
               ),
             ),
@@ -111,9 +103,6 @@ class _EditMapPageState extends State<EditMapPage> {
                 child: TextFormField(          
                   controller: searchController,
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),   
-                  inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(10)
-                  ],
                   decoration: InputDecoration(
                     hintText: '搜索地址',
                     hintStyle: TextStyle(fontSize: 15.0, color: Color(0xFFFEFEFE), fontWeight: FontWeight.w300),

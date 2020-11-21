@@ -128,7 +128,7 @@ class _UserEditNameState extends State<UserEditName> {
                 voidCallback();
                   if (result) {
                   showWeuiSuccessToast(context: context, message: Text('修改用户名成功'), closeDuration: Duration(milliseconds: 1000));
-                  Future.delayed(Duration(milliseconds: 1200), (){
+                  Future.delayed(Duration(milliseconds: 1200), () {
                     Navigator.of(preContext).push(MaterialPageRoute(
                       builder: (BuildContext context) {
                         return UserEdit();
@@ -140,7 +140,7 @@ class _UserEditNameState extends State<UserEditName> {
             ),
             CupertinoDialogAction(
               child: Text('取消'),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
