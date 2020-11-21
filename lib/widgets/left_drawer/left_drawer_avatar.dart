@@ -50,7 +50,6 @@ class LeftDrawerAvatar extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        print('修改个人信息');
                       },
                     ) :
                     GestureDetector(

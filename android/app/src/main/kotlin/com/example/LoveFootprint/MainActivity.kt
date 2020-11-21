@@ -1,4 +1,4 @@
-package com.example.footprint
+package com.example.footprintApp
 
 import io.flutter.embedding.android.FlutterActivity
 

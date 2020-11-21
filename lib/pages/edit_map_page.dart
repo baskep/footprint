@@ -34,7 +34,7 @@ class _EditMapPageState extends State<EditMapPage> {
   @override
   void initState() {
     super.initState();
-    Flutter2dAMap.setApiKey("0965e37c3f2e67c6eef92d302677a51d");
+    Flutter2dAMap.setApiKey("5fcf326e0d896b48a4334c78726df3d9");
   }
   
   @override
@@ -48,7 +48,7 @@ class _EditMapPageState extends State<EditMapPage> {
               flex: 9,
               child: AMap2DView(
                 onPoiSearched: (result) {
-                  //scrollController.animateTo(0.0, duration: const Duration(milliseconds: 10), curve: Curves.ease);
+                  scrollController.animateTo(0.0, duration: const Duration(milliseconds: 10), curve: Curves.ease);
                   positionIndex = 0;
                   list = result;
                   String detailAddress = '中国';

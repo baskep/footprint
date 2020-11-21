@@ -54,7 +54,6 @@ class _HomeState extends State<Home> {
   void initState() { 
     super.initState();
     getFootprintList();
-    getFootprintUserInfo();
   }
 
   void getFootprintUserInfo() async {
@@ -63,6 +62,7 @@ class _HomeState extends State<Home> {
     var userNameData = sp.getString('userName');    
     var avatarData = sp.getString('avatar');
     var idData = sp.getString('_id');
+    print('初始化时');
     setState(() {
       token = tokenData;
       userName = userNameData;
