@@ -200,7 +200,7 @@ class _UserEditState extends State<UserEdit> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return UserEditPassword();
+                            return UserEditPassword(id: widget.id, name: widget.name);
                           }
                         ));
                       },
