@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:footprint/pages/login.dart';
 import 'package:footprint/api/http.dart';
 import 'package:footprint/model/category.dart';
 import 'package:footprint/model/login_form_data.dart';
@@ -32,7 +33,11 @@ class DioWeb {
       return true;
     } else if (code == 113) {
       formatMsg('登录过期，请重新登录');
-      Navigator.pushReplacementNamed(context, ' /login');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+        (route) => false,
+      );
       return false;
     } else {
       formatMsg(res.data['status']['message']);

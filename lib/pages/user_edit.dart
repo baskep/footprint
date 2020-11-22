@@ -5,12 +5,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cool_ui/cool_ui.dart';
 
+import 'home.dart';
 import 'package:footprint/pages/user_edit_name.dart';
 import 'package:footprint/pages/user_edit_pd.dart';
 
 import 'package:footprint/api/dio_web.dart';
 
+
 class UserEdit extends StatefulWidget {
+
+  final String id;
+  final String name;
+
+  UserEdit({this.id, this.name});
+
   @override
   _UserEditState createState() => _UserEditState();
 }
@@ -72,14 +80,21 @@ class _UserEditState extends State<UserEdit> {
         title: Text('个人信息', style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16)),
         backgroundColor: Color(0xFF4abdcc),
         elevation: 0.8,
-        leading: Builder(builder: (context) {
-          return IconButton(
-            icon: Image.asset('assets/img/back.png', width: 18.0, height: 18.0),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }
-          );
-        }),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          Builder(builder: (context){
+            return IconButton(
+              icon: Image.asset('assets/img/edit-publish.png', width: 18.0, height: 18.0),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home(id: widget.id, name: widget.name)),
+                  (route) => false,
+                );
+              },
+            );
+          })
+        ],
       ),
       body: Container(
         margin: EdgeInsets.only(top: 20.0),
@@ -151,7 +166,7 @@ class _UserEditState extends State<UserEdit> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return UserEditName(paramData: userName != null && userName != '' ? userName : '');
+                                return UserEditName(paramData: userName != null && userName != '' ? userName : '', id: widget.id, name: widget.name);
                               }
                             ));
                           },

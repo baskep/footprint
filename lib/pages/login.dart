@@ -209,11 +209,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         if (result) {
                           showWeuiSuccessToast(context: context, message: Text('登录成功'), closeDuration: Duration(milliseconds: 1000));
                           Future.delayed(Duration(seconds: 1), () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return Home(id: '', name: '生活');
-                              }
-                            ));     
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => Home(id: '', name: '生活')),
+                              (route) => false,
+                            );  
                           });
                         } else {
                           getVerifyCode();

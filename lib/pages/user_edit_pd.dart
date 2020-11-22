@@ -10,6 +10,11 @@ import 'package:footprint/api/dio_web.dart';
 
 class UserEditPassword extends StatefulWidget {
 
+  final String id;
+  final String name;
+
+  UserEditPassword({this.id, this.name});
+
   @override
   _UserEditPasswordState createState() => _UserEditPasswordState();
 
@@ -41,7 +46,7 @@ class _UserEditPasswordState extends State<UserEditPassword> {
             return IconButton(
               icon: Image.asset('assets/img/edit-publish.png', width: 18.0, height: 18.0),
               onPressed: () {
-                showModel(context);
+                showModel(context, widget.id, widget.name);
               },
             );
           })
@@ -132,7 +137,7 @@ class _UserEditPasswordState extends State<UserEditPassword> {
     );
   }
 
-  void showModel(preContext) {
+  void showModel(preContext, id, name) {
     showDialog(
       context: preContext, 
       builder: (context) {
@@ -190,7 +195,7 @@ class _UserEditPasswordState extends State<UserEditPassword> {
                   Future.delayed(Duration(milliseconds: 1200), () {
                     Navigator.of(preContext).push(MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return UserEdit();
+                        return UserEdit(id: id, name: name);
                       }
                     )); 
                   });

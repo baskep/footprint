@@ -12,8 +12,10 @@ import 'package:footprint/api/dio_web.dart';
 class UserEditName extends StatefulWidget {
 
   final String paramData;
+  final String id;
+  final String name;
 
-  UserEditName({this.paramData});
+  UserEditName({this.paramData, this.id, this.name});
 
   @override
   _UserEditNameState createState() => _UserEditNameState();
@@ -58,7 +60,7 @@ class _UserEditNameState extends State<UserEditName> {
                     timeInSecForIosWeb: 1
                   );
                 } else {
-                  showModel(context);
+                  showModel(context, widget.id, widget.name);
                 }
               },
             );
@@ -110,7 +112,7 @@ class _UserEditNameState extends State<UserEditName> {
     );
   }
 
-  void showModel(preContext) {
+  void showModel(preContext, id, name) {
     showDialog(
       context: preContext, 
       builder: (context) {
@@ -131,7 +133,7 @@ class _UserEditNameState extends State<UserEditName> {
                   Future.delayed(Duration(milliseconds: 1200), () {
                     Navigator.of(preContext).push(MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return UserEdit();
+                        return UserEdit(id: id, name: name);
                       }
                     )); 
                   });

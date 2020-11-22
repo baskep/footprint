@@ -379,13 +379,11 @@ class _EditPageState extends State<EditPage> {
                     voidCallback();
                     if (result) {
                       showWeuiSuccessToast(context: context, message: Text('发布成功'), closeDuration: Duration(milliseconds: 1000));
-                        Navigator.pushNamed(preContext, '/home', arguments: {"id": 123});
-
-                        // Navigator.of(preContext).push(MaterialPageRoute(
-                        //   builder: (BuildContext context) {
-                        //     return Home(id: id, name: name);
-                        //   }
-                        // )); 
+                      Navigator.pushAndRemoveUntil(
+                        preContext,
+                        MaterialPageRoute(builder: (context) => Home(id: id, name: name)),
+                        (route) => false,
+                      );
                     }
                   },
                 ),

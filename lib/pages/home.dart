@@ -140,7 +140,7 @@ class _HomeState extends State<Home> {
                                     case 'footprint':
                                       return CategoryPage();
                                     case 'userEdit':
-                                      return UserEdit();
+                                      return UserEdit(id: widget.id, name: widget.name);
                                     case 'moreInfo':
                                       return MoreInfo();
                                     default:
@@ -179,11 +179,11 @@ class _HomeState extends State<Home> {
                       if (flag) {
                         showWeuiSuccessToast(context: context, message: Text('注销成功'), closeDuration: Duration(milliseconds: 1000));
                         Future.delayed(Duration(milliseconds: 1000), () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return Home(id: '', name: '生活');
-                            }
-                          )); 
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home(id: '', name: '生活')),
+                            (route) => false,
+                          );
                         });
                       }
                       voidCallback();
