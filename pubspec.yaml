@@ -62,7 +62,6 @@ flutter:
   uses-material-design: true
   assets:
   - assets/img/menu.png
-  - assets/img/empty.svg
   - assets/img/time.png
   - assets/img/location.png
   - assets/img/back.png
