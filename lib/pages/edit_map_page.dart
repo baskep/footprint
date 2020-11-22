@@ -15,10 +15,12 @@ class EditMapPage extends StatefulWidget {
 }
 
 class _EditMapPageState extends State<EditMapPage> {
-  String addressName = '';
+  final ScrollController scrollController = ScrollController();
   final positionIndex = 0;
 
-  final ScrollController scrollController = ScrollController();
+  List addressResullt = new List();
+  String addressName = '';
+  int selectIndex = 0;
 
   AMap2DController aMap2DController;
   TextEditingController searchController = TextEditingController();
@@ -61,7 +63,9 @@ class _EditMapPageState extends State<EditMapPage> {
                     }
                   }
                   setState(() {
+                    selectIndex = 0;
                     addressName = detailAddress;
+                    addressResullt = result;
                   });
                 },
                 onAMap2DViewCreated: (controller) {
@@ -69,7 +73,50 @@ class _EditMapPageState extends State<EditMapPage> {
                 },
               ),
             ),
-
+            addressResullt != null && addressResullt.length != 0 ?
+            Expanded(
+              flex: 11,
+              child: ListView.separated(
+                itemCount: addressResullt.length,
+                separatorBuilder: (item, index) => const Divider(),
+                itemBuilder: (item, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      if (aMap2DController != null) {
+                        aMap2DController.move(addressResullt[index].latitude, addressResullt[index].longitude);
+                      }
+                      setState(() {
+                        selectIndex = index;
+                        addressName = addressResullt[index].title;
+                      });
+                    },
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      height: 50.0,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              addressResullt[index].provinceName + ' ' +
+                              addressResullt[index].cityName + ' ' +
+                              addressResullt[index].adName + ' ' +
+                              addressResullt[index].title, 
+                              style: TextStyle(color: Color(0xFF999999))
+                            ),
+                          ),
+                          Visibility(
+                            visible: selectIndex == index,
+                            child: const Icon(Icons.done, color: Color(0xFF4abdcc)),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              ),
+            ) :
+            Container()
           ],
         ),
       ),

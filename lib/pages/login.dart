@@ -18,18 +18,18 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
 
-  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
-  TextEditingController _accountController = TextEditingController();
-  TextEditingController _pwdController = TextEditingController();
-  TextEditingController _invitionCodeController = TextEditingController();
-  TextEditingController _verifyCodeController = TextEditingController();
+  TextEditingController accountController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
+  TextEditingController invitionCodeController = TextEditingController();
+  TextEditingController verifyCodeController = TextEditingController();
 
   LoginFormDataModel loginFormData = new LoginFormDataModel('', '', '', '');
   
-  String _verifyCode = '';
+  String verifyCode = '';
 
-  bool _isLogin = false;
+  bool isLogin = false;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     DioWeb.getVerifyCode()
       .then((data) { 
           setState(() {
-            _verifyCode = data;
+            verifyCode = data;
           });
       });
   }
@@ -53,7 +53,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       body: Container(
         margin: EdgeInsets.only(top: 60.0, left: 30, right: 30),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: <Widget>[
               // 用户名
@@ -64,7 +64,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     LengthLimitingTextInputFormatter(11)
                   ],
                   keyboardType: TextInputType.number,
-                  controller: _accountController,
+                  controller: accountController,
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
                   decoration: InputDecoration(
                     hintText: '手机号',
@@ -80,7 +80,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               // 密码
               Container(
                 child: TextFormField(
-                  controller: _pwdController,
+                  controller: pwdController,
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
                   decoration: InputDecoration(
                     hintText: '账号密码(不少于4位)',
@@ -105,7 +105,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       children: <Widget>[
                         Container(
                           child: TextFormField(
-                            controller: _verifyCodeController,
+                            controller: verifyCodeController,
                             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
                             decoration: InputDecoration(
                               hintText: '验证码',
@@ -121,12 +121,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  _verifyCode != '' ? 
+                  verifyCode != '' ? 
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
                     width: 100.0,
                     child: CodeReview(
-                      text: _verifyCode,
+                      text: verifyCode,
                       callback: () {
                         getVerifyCode();
                       },
@@ -137,7 +137,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               // 邀请码
               Container(
                 child: TextFormField(
-                  controller: _invitionCodeController,
+                  controller: invitionCodeController,
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
                   decoration: InputDecoration(
                     hintText: '邀请码',
@@ -167,16 +167,16 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   child: Text('登录', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 17.0)),
                   onTap: () async {
                     if (
-                      _accountController.text.length > 0 &&
-                      _pwdController.text.length > 0 &&
-                      _verifyCodeController.text.length > 0
+                      accountController.text.length > 0 &&
+                      pwdController.text.length > 0 &&
+                      verifyCodeController.text.length > 0
                     ) {
-                      loginFormData.mobile = _accountController.text;
-                      loginFormData.password = _pwdController.text;
-                      loginFormData.verifyCode = _verifyCodeController.text;
-                      loginFormData.invitionCode = _invitionCodeController.text;
+                      loginFormData.mobile = accountController.text;
+                      loginFormData.password = pwdController.text;
+                      loginFormData.verifyCode = verifyCodeController.text;
+                      loginFormData.invitionCode = invitionCodeController.text;
                       RegExp exp = RegExp(r'^1[3-9]\d{9}$');
-                      if (_isLogin) {
+                      if (isLogin) {
                         return;
                       }
                       if (!exp.hasMatch(loginFormData.mobile)) {
@@ -191,17 +191,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1
                         );
-                      } else if (loginFormData.verifyCode != _verifyCode) {
+                      } else if (loginFormData.verifyCode != verifyCode) {
                         Fluttertoast.showToast(
                           msg: '验证码错误',
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1
                         );
-                        _verifyCodeController.text = '';
+                        verifyCodeController.text = '';
                         getVerifyCode();
-                      } else if (!_isLogin) {
+                      } else if (!isLogin) {
                         setState(() {
-                          _isLogin = true;
+                          isLogin = true;
                         });
                         final voidCallback = showWeuiLoadingToast(context: context, message: Text('登录中'));
                         bool result = await DioWeb.login(loginFormData);
@@ -219,7 +219,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           getVerifyCode();
                         }
                         setState(() {
-                          _isLogin = false;
+                          isLogin = false;
                         });
                       }
                     } else {
