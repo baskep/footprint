@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:flutter_2d_amap/flutter_2d_amap.dart';
 
 class EditMapPage extends StatefulWidget {

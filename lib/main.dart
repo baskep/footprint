@@ -6,6 +6,7 @@ import 'package:footprint/pages/home.dart';
 import 'package:footprint/pages/login.dart';
 
 import 'package:footprint/api/http.dart';
+import 'package:footprint/pages/testroute.dart';
 void main() {
   dio.options.connectTimeout = 12000000;
   dio.options.receiveTimeout = 12000000;
@@ -18,12 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: MaterialApp(
-        routes: {
-          '/login': (context) => Login()
-        },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/home') {
-            return MaterialPageRoute(builder: (BuildContext context) => Home(id: '', name: '生活'));
+            return MaterialPageRoute(builder: (BuildContext context) => TestRoute(arguments: settings.arguments));
           }
         },
         debugShowCheckedModeBanner: false,

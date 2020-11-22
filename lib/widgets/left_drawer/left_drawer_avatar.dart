@@ -60,7 +60,8 @@ class LeftDrawerAvatar extends StatelessWidget {
                           height: 59,
                         ),
                       ),
-                      onTap: () {    
+                      onTap: () {   
+                        Navigator.of(context).pop(); 
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) {
                             return Login();

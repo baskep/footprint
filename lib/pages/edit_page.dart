@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:footprint/pages/edit_map_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:cool_ui/cool_ui.dart';
 
 import 'package:footprint/pages/home.dart';
+import 'package:footprint/pages/edit_map_page.dart';
 
 import 'package:footprint/model/category.dart';
 import 'package:footprint/model/list_form_data.dart';
@@ -379,13 +379,13 @@ class _EditPageState extends State<EditPage> {
                     voidCallback();
                     if (result) {
                       showWeuiSuccessToast(context: context, message: Text('发布成功'), closeDuration: Duration(milliseconds: 1000));
-                      Future.delayed(Duration(milliseconds: 1200), () {        
-                        Navigator.of(preContext).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return Home(id: id, name: name);
-                          }
-                        )); 
-                      });
+                        Navigator.pushNamed(preContext, '/home', arguments: {"id": 123});
+
+                        // Navigator.of(preContext).push(MaterialPageRoute(
+                        //   builder: (BuildContext context) {
+                        //     return Home(id: id, name: name);
+                        //   }
+                        // )); 
                     }
                   },
                 ),
