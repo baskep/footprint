@@ -65,8 +65,7 @@ class ListText extends StatelessWidget {
                     Container(
                       width: 30,
                       height: 30,
-                      child: categoryDetail.avatar != null && categoryDetail.avatar != '' &&
-                        categoryDetail.imageUrl != null && categoryDetail.imageUrl != '' ? 
+                      child: categoryDetail.avatar != null && categoryDetail.avatar != '' ?
                         CachedNetworkImage(
                           imageUrl: categoryDetail.avatar,
                           imageBuilder: (context, imageProvider) => Container(
@@ -78,9 +77,7 @@ class ListText extends StatelessWidget {
                               )
                             )
                           )
-                        ) : (categoryDetail.imageUrl != null && categoryDetail.imageUrl != '') || 
-                        ((categoryDetail.localtion != null && categoryDetail.localtion != '') && (categoryDetail.dateTime != null && categoryDetail.dateTime != '')) ?
-                        Container(
+                        ) : Container(
                           child: ClipOval(
                             child: Image.asset(
                               'assets/img/default-avatar.png',
@@ -93,14 +90,12 @@ class ListText extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 1.0),
                             borderRadius: BorderRadius.circular(30.0)
                           ),
-                        ) : Container()
+                        )
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        (categoryDetail.imageUrl != null && categoryDetail.imageUrl != '') || 
-                        ((categoryDetail.localtion != null && categoryDetail.localtion != '') && (categoryDetail.dateTime != null && categoryDetail.dateTime != '')) ?
-                        'by ' + categoryDetail.user : '', 
+                        'by ' + categoryDetail.user, 
                         style: TextStyle(color: Colors.white, fontSize: 12.0),
                       ),
                     )
