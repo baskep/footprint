@@ -77,7 +77,8 @@ class ListText extends StatelessWidget {
                               )
                             )
                           )
-                        ) : Container(
+                        ) : (categoryDetail.user != null && categoryDetail.user != 'xxx') ?
+                        Container(
                           child: ClipOval(
                             child: Image.asset(
                               'assets/img/default-avatar.png',
@@ -90,12 +91,13 @@ class ListText extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 1.0),
                             borderRadius: BorderRadius.circular(30.0)
                           ),
-                        )
+                        ) : Container()
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
-                        'by ' + categoryDetail.user, 
+                        categoryDetail.user != null && categoryDetail.user != 'xxx' ?
+                        'by ' + categoryDetail.user : '', 
                         style: TextStyle(color: Colors.white, fontSize: 12.0),
                       ),
                     )

@@ -9,7 +9,7 @@ import 'package:footprint/api/http.dart';
 void main() {
   dio.options.connectTimeout = 12000000;
   dio.options.receiveTimeout = 12000000;
-  dio.options.baseUrl = 'http://47.111.73.76/api';
+  dio.options.baseUrl = '';
   runApp(FootprintApp());
 }
 
