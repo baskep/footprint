@@ -153,7 +153,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               // 登录
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 60.0),
+                margin: EdgeInsets.only(top: 30.0),
                 width: 164.0,
                 height: 50.0,
                 decoration: BoxDecoration(
