@@ -81,6 +81,40 @@ Flutter2dAMap.setApiKey('配置你的key');
 
 项目中默认已经配置好了，所以你只需简单设置下`key`就行了
 
+#### 3.3服务端配置
+
+此项目图片存储工具用的阿里云`oss`，所以需要在方法中配置`oss`的链接以及`key`
+
+```dart
+ // 上传图片至阿里云
+  static Future<String> upload(PickedFile image) async {
+    var baseUrl = ''; // oss地址
+    var fileName = OssUtil.instance.getImageName(image.path);
+    dio.options.responseType = ResponseType.plain;
+    FormData formdata = FormData.fromMap({
+      'Filename': fileName,
+      'key': 'images/' + fileName,
+      'policy': OssUtil.policy,
+      'OSSAccessKeyId': '', // AccessKey
+      'success_action_status': '200',
+      'signature': OssUtil.instance.getSignature(''), // secretKey
+      'file': MultipartFile.fromFileSync(image.path, filename:OssUtil.instance.getImageNameByPath(image.path))
+      });
+    var response = await dio.post(baseUrl, data: formdata);
+    if (response.statusCode == 200) {
+      return baseUrl + 'images/' + fileName;
+    } else {
+      formatMsg('上传图片失败，请稍候再试');
+      return '';
+    }
+  }
+```
+
+找到入口文件`main.dart`，修改`dio`请求地址
+```dart
+dio.options.baseUrl = '服务端地址';
+```
+
 
 
 ## 4.app下载地址
